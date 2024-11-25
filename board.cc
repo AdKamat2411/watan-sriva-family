@@ -1,4 +1,5 @@
 #include "board.h"
+#include <iostream>
 
 int vertArr[19][6] = {
     {0, 1, 4, 9, 8, 3},
@@ -64,5 +65,49 @@ Board::Board(int currGeese): currGeese{currGeese} {
     }
 }
 
+void printSpaces(int num) {
+    for (int i = 0; i < num; i++) {
+        cout << ' ';
+    }
+}
 
+void printSide(Vertex v0, Edge e0, Vertex v1) {
+    cout << '|' << v0 << '|--' << e0 << '--|' << v1 << '|';
+}
 
+// board size is 84x41 chars
+// each tile side has 16 chars
+// empty space in the centre of the tile is 16 chars
+
+void Board::printBoard() {
+    for (int i = 0; i < 41; i++) {
+        if (i == 0) {
+            printSpaces(33);
+            printSide(*vertices[0], *edges[0], *vertices[1]);
+            printSpaces(37);
+            cout << '\n';
+        }
+        if (i == 1) {
+            printSpaces(33);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(33);
+        }
+        
+    }
+}
+
+Board::~Board() {
+    for (int i = 0; i < 54; i++) {
+        delete vertices[i];
+    }
+
+    for (int i = 0; i < 71; i++) {
+        delete edges[i];
+    }
+
+    for (int i = 0; i < 19; i++) {
+        delete tiles[i];
+    }
+}
