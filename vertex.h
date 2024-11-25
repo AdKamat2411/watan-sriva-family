@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -11,8 +12,9 @@ class Vertex {
         void upgradeCriterion();
         bool isAvailabale();
         string getName();
+        int getIdx();
         void setOwner(string s);
 };
 
-ostream& operator<<(ostream& out, Vertex v);
+export ostream& operator<<(ostream& out, Vertex v);
 
