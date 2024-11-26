@@ -92,21 +92,21 @@ void printSide(Vertex v0, Edge e0, Vertex v1) {
 void Board::printBoard() {
     for (int i = 0; i < 41; i++) {
         if (i == 0) {
-            printSpaces(33);
+            printSpaces(39);
             printSide(*vertices[0], *edges[0], *vertices[1]);
             printSpaces(37);
             cout << '\n';
         }
 
         if (i == 40) {
-            printSpaces(33);
+            printSpaces(39);
             printSide(*vertices[52], *edges[71], *vertices[53]);
             printSpaces(37);
             cout << '\n';
         }
 
         if (i == 1) {
-            printSpaces(33);
+            printSpaces(39);
             cout << '/';
             printSpaces(12);
             cout << '\\';
@@ -115,7 +115,7 @@ void Board::printBoard() {
         }
 
         if (i == 39) {
-            printSpaces(33);
+            printSpaces(39);
             cout << '\\';
             printSpaces(12);
             cout << '/';
@@ -124,7 +124,7 @@ void Board::printBoard() {
         }
 
         if (i == 2) {
-            printSpaces(31);
+            printSpaces(37);
             cout << *edges[1];
             printSpaces(6);
             cout << " 0";
@@ -135,7 +135,7 @@ void Board::printBoard() {
         }
 
         if (i == 38) {
-            printSpaces(31);
+            printSpaces(37);
             cout << *edges[69];
             printSpaces(14);
             cout << *edges[70];
@@ -144,7 +144,7 @@ void Board::printBoard() {
         }
 
         if (i == 3) {
-            printSpaces(31);
+            printSpaces(37);
             cout << '/';
             printSpaces(5);
             cout << setw(8) << left << tiles[0]->getResource();
@@ -154,7 +154,7 @@ void Board::printBoard() {
         }
 
         if (i == 37) {
-            printSpaces(31);
+            printSpaces(37);
             cout << '\\';
             printSpaces(16);
             cout << '/';
@@ -162,24 +162,578 @@ void Board::printBoard() {
         }
 
         if (i == 4) {
-            printSpaces(17);
+            printSpaces(24);
             printSide(*vertices[2], *edges[3], *vertices[3]);
-            printSpaces(18);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[0]->getDieVal();
+            printSpaces(7);
             printSide(*vertices[4], *edges[4], *vertices[5]);
             cout << '\n';
         }
 
         if (i == 36) {
-            printSpaces(17);
+            printSpaces(24);
             printSide(*vertices[48], *edges[67], *vertices[49]);
-            printSpaces(18);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[18]->getDieVal();
+            printSpaces(7);
             printSide(*vertices[50], *edges[68], *vertices[51]);
             cout << '\n';
         }
 
+        if (i == 5) {
+            printSpaces(24);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            cout << '\n';
+        }
 
+        if (i == 35) {
+            printSpaces(24);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[18]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            cout << '\n';
+        }
 
-        
+        if (i == 6) {
+            printSpaces(22);
+            cout << *edges[5];
+            printSpaces(6);
+            cout << " 1";
+            printSpaces(5);
+            cout << *edges[6];
+            printSpaces(13);
+            cout << *edges[7];
+            printSpaces(6);
+            cout << " 2";
+            printSpaces(5);
+            cout << *edges[8];
+            cout << '\n';
+        }
+
+        if (i == 34) {
+            printSpaces(22);
+            cout << *edges[63];
+            printSpaces(13);;
+            cout << *edges[64];
+            printSpaces(6);
+            cout << "18";
+            printSpaces(5);
+            cout << *edges[65];
+            printSpaces(13);
+            cout << *edges[66];
+            cout << '\n';
+        }
+
+        if (i == 7) {
+            printSpaces(22);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[1]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[2]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            cout << '\n';
+        }
+
+        if (i == 33) {
+            printSpaces(22);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            cout << '\n';
+        }
+
+        if (i == 8) {
+            printSpaces(9);
+            printSide(*vertices[6], *edges[9], *vertices[7]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[1]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[8], *edges[10], *vertices[9]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[2]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[10], *edges[11], *vertices[11]);
+            cout << '\n';
+        }
+
+        if (i == 32) {
+            printSpaces(9);
+            printSide(*vertices[42], *edges[60], *vertices[43]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[16]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[44], *edges[61], *vertices[45]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[17]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[46], *edges[62], *vertices[47]);
+            cout << '\n';
+        }
+
+        if (i == 9) {
+            printSpaces(9);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            cout << '\n';
+        }
+
+        if (i == 31) {
+            printSpaces(9);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[16]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[17]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            cout << '\n';
+        }
+
+        if (i == 10) {
+            printSpaces(7);
+            cout << *edges[12];
+            printSpaces(6);
+            cout << " 3";
+            printSpaces(5);
+            cout << *edges[13];
+            printSpaces(13);
+            cout << *edges[14];
+            printSpaces(6);
+            cout << " 4";
+            printSpaces(5);
+            cout << *edges[15];
+            printSpaces(13);
+            cout << *edges[16];
+            printSpaces(6);
+            cout << " 5";
+            printSpaces(5);
+            cout << *edges[17];
+            cout << '\n';
+        }
+
+        if (i == 30) {
+            printSpaces(7);
+            cout << *edges[54];
+            printSpaces(13);
+            cout << *edges[55];
+            printSpaces(6);
+            cout << "16";
+            printSpaces(5);
+            cout << *edges[56];
+            printSpaces(13);
+            cout << *edges[57];
+            printSpaces(6);
+            cout << "17";
+            printSpaces(5);
+            cout << *edges[58];
+            printSpaces(13);
+            cout << *edges[59];
+            cout << '\n';
+        }
+
+        if (i == 11) {
+            printSpaces(7);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[3]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[4]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[5]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            cout << '\n';
+        }
+
+        if (i == 29) {
+            printSpaces(7);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            cout << '\n';
+        }
+
+        if (i == 12) {
+            printSpaces(4);
+            cout << '|';
+            cout << *vertices[12];
+            cout << '|';
+            printSpaces(7);
+            cout << setw(2) << right << tiles[3]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[13], *edges[18], *vertices[14]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[4]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[15], *edges[19], *vertices[16]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[5]->getDieVal();
+            printSpaces(7);
+            cout << '|';
+            cout << *vertices[17];
+            cout << '|';
+            cout << '\n';
+        }
+
+        if (i == 28) {
+            printSpaces(4);
+            cout << '|';
+            cout << *vertices[36];
+            cout << '|';
+            printSpaces(7);
+            cout << setw(2) << right << tiles[13]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[37], *edges[52], *vertices[38]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[14]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[39], *edges[53], *vertices[40]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[15]->getDieVal();
+            printSpaces(7);
+            cout << '|';
+            cout << *vertices[41];
+            cout << '|';
+            cout << '\n';
+        }
+
+        if (i == 13) {
+            printSpaces(7);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            cout << '\n';
+        }
+
+        if (i == 27) {
+            printSpaces(7);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[13]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[14]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[15]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            cout << '\n';
+        }
+
+        if (i == 14) {
+            printSpaces(7);
+            cout << *edges[20];
+            printSpaces(13);
+            cout << *edges[21];
+            printSpaces(6);
+            cout << " 6";
+            printSpaces(5);
+            cout << *edges[22];
+            printSpaces(13);
+            cout << *edges[23];
+            printSpaces(6);
+            cout << " 7";
+            printSpaces(5);
+            cout << *edges[24];
+            printSpaces(13);
+            cout << *edges[25];
+            cout << '\n';
+        }
+
+        if (i == 26) {
+            printSpaces(7);
+            cout << *edges[46];
+            printSpaces(6);
+            cout << "13";
+            printSpaces(5);
+            cout << *edges[47];
+            printSpaces(13);
+            cout << *edges[48];
+            printSpaces(6);
+            cout << "14";
+            printSpaces(5);
+            cout << *edges[49];
+            printSpaces(13);
+            cout << *edges[50];
+            printSpaces(6);
+            cout << "15";
+            printSpaces(5);
+            cout << *edges[51];
+            cout << '\n';
+        }
+
+        if (i == 15) {
+            printSpaces(9);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[6]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[7]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            cout << '\n';
+        }
+
+        if (i == 25) {
+            printSpaces(9);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            cout << '\n';
+        }
+
+        if (i == 16) {
+            printSpaces(9);
+            printSide(*vertices[18], *edges[26], *vertices[19]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[6]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[20], *edges[27], *vertices[21]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[7]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[22], *edges[28], *vertices[23]);
+            cout << '\n';
+        }
+
+        if (i == 24) {
+            printSpaces(9);
+            printSide(*vertices[30], *edges[43], *vertices[31]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[11]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[32], *edges[44], *vertices[33]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[12]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[34], *edges[45], *vertices[35]);
+            cout << '\n';
+        }
+
+        if (i == 17) {
+            printSpaces(9);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            cout << '\n';
+        }
+
+        if (i == 23) {
+            printSpaces(9);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[11]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[12]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            cout << '\n';
+        }
+
+        if (i == 18) {
+            printSpaces(7);
+            cout << *edges[29];
+            printSpaces(6);
+            cout << " 8";
+            printSpaces(5);
+            cout << *edges[30];
+            printSpaces(13);
+            cout << *edges[31];
+            printSpaces(6);
+            cout << " 9";
+            printSpaces(5);
+            cout << *edges[32];
+            printSpaces(13);
+            cout << *edges[33];
+            printSpaces(6);
+            cout << "10";
+            printSpaces(5);
+            cout << *edges[34];
+            cout << '\n';
+        }
+
+        if (i == 22) {
+            printSpaces(7);
+            cout << *edges[37];
+            printSpaces(13);
+            cout << *edges[38];
+            printSpaces(6);
+            cout << "11";
+            printSpaces(5);
+            cout << *edges[39];
+            printSpaces(13);
+            cout << *edges[40];
+            printSpaces(6);
+            cout << "12";
+            printSpaces(5);
+            cout << *edges[41];
+            printSpaces(13);
+            cout << *edges[42];
+            cout << '\n';
+        }
+
+        if (i == 19) {
+            printSpaces(7);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[8]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[9]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[10]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            cout << '\n';
+        }
+
+        if (i == 21) {
+            printSpaces(7);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            printSpaces(12);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            cout << '\n';
+        }
+
+        if (i == 20) {
+            printSpaces(4);
+            cout << '|';
+            cout << *vertices[24];
+            cout << '|';
+            printSpaces(7);
+            cout << setw(2) << right << tiles[8]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[25], *edges[35], *vertices[26]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[9]->getDieVal();
+            printSpaces(7);
+            printSide(*vertices[27], *edges[36], *vertices[28]);
+            printSpaces(7);
+            cout << setw(2) << right << tiles[10]->getDieVal();
+            printSpaces(7);
+            cout << '|';
+            cout << *vertices[29];
+            cout << '|';
+            cout << '\n';
+        }
     }
 }
 
