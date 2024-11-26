@@ -14,5 +14,8 @@ int Tile::getDieVal() { return dieValue; }
 
 string Tile::getResource() { return resourceType; }
 
+void Tile::distributeResources() {
+    std::cout << "Resources distributed for tile: " << resourceType << std::endl;
+}
 
 

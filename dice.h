@@ -12,6 +12,7 @@ class Dice : public Subject {
   protected:
     int sumOfRoll;
   public:
+    Dice() : sumOfRoll(0) {}
     virtual ~Dice() {}
     virtual void roll() = 0;
     int getSumOfRoll() const { return sumOfRoll; }

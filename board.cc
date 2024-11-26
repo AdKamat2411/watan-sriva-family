@@ -187,6 +187,12 @@ void Board::notify() {
     notifyTiles();
 }
 
+void Board::notifyTiles() {
+    for (int i = 0; i < 19; i++) {
+        tiles[i]->distributeResources();
+    }
+}
+
 Board::~Board() {
     dice->detach(this);
     for (int i = 0; i < 54; i++) {

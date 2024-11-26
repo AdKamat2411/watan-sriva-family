@@ -23,7 +23,7 @@ class Board: public Observer {
         void printBoard();
         void notifyTiles();
         void initializeBoard(); // sets resourceType and dieValue for each tile
-        ~Board();
+        ~Board() noexcept;
 };
 
 #endif
