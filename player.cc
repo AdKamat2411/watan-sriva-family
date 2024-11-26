@@ -92,7 +92,7 @@ bool Player::buildCriterion(Vertex& targetVertex, Edge* connectedEdges[], int nu
     removeResources("CAFFEINE", CAFFEINE_REQUIRED);
     removeResources("LAB", LAB_REQUIRED);
     removeResources("LECTURE", LECTURE_REQUIRED);
-    removeResources("TUTORIAL", TUTORIAL_REQUIRED);]
+    removeResources("TUTORIAL", TUTORIAL_REQUIRED);
     targetVertex.setOwner(color);
     targetVertex.upgradeCriterion();
     addVictoryPoints(1);

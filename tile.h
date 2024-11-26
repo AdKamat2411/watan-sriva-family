@@ -4,8 +4,9 @@
 #include "vertex.h"
 #include "edge.h"
 #include <string>
+#include "observer.h"
 
-class Tile {
+class Tile : public Observer {
     string resourceType;
     int dieValue;
     bool geeseFlag;
@@ -19,6 +20,7 @@ class Tile {
         string getResource();
         void setResource(const std::string& resource);
         void setDieVal(int value);
+        void notify(int rollSum) override;
 };
 
 #endif 

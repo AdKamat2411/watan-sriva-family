@@ -4,13 +4,13 @@
 #include "vertex.h"
 #include "edge.h"
 #include "tile.h"
-
+#include "subject.h"
 #include "observer.h"
 #include "dice.h"
 
 class BoardSetup;
 
-class Board: public Observer {
+class Board: public Subject, public Observer {
     Vertex* vertices[54];
     Edge* edges[72];
     int currGeese;
@@ -21,9 +21,9 @@ class Board: public Observer {
         static const int edgeArr[19][6];
 
         Board(Dice* dice, int currGeese = -1);
-        void notify() override;
+        void notify(int rollSum = -1) override;
         void printBoard();
-        void notifyTiles();
+        void notifyTiles(int rollSum);
         void initializeBoard(BoardSetup& setupStrategy); // sets resourceType and dieValue for each tile
         Tile* getTile(int index) const;
         ~Board() noexcept;
