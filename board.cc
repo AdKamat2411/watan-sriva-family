@@ -71,7 +71,7 @@ Board::Board(Dice* dice, int currGeese) : dice(dice), currGeese(currGeese) {
         } else {
             tiles[i] = new Tile(tempVertices, tempEdges, "CAFFIENE");
         }
-        
+
     }
 }
 
@@ -183,14 +183,18 @@ void Board::printBoard() {
     }
 }
 
-void Board::notify() {
-    int rollSum = dice->getSumOfRoll(); 
-    notifyTiles();
+void Board::notify(int rollSum) {
+    if (rollSum == -1) {
+        rollSum = dice->getSumOfRoll();
+    }
+    notifyTiles(rollSum);
 }
 
-void Board::notifyTiles() {
+void Board::notifyTiles(int rollSum) {
     for (int i = 0; i < 19; i++) {
-        tiles[i]->distributeResources();
+        if (tiles[i]->getDieVal() == rollSum) {
+            tiles[i]->notify(rollSum);
+        }
     }
 }
 
@@ -216,3 +220,4 @@ void Board::initializeBoard(BoardSetup& setupStrategy) {
 Tile* Board::getTile(int index) const {
     return tiles[index];
 }
+
