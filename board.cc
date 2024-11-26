@@ -1,5 +1,6 @@
 #include "board.h"
 #include <iostream>
+#include "observer.h"
 #include <iomanip>
 
 const int Board::vertArr[19][6] = {
@@ -46,7 +47,8 @@ const int Board::edgeArr[19][6] = {
     {61, 65, 70, 71, 69, 64}
 };
 
-Board::Board(int currGeese): currGeese(currGeese) {
+Board::Board(Dice* dice, int currGeese) : dice(dice), currGeese(currGeese) {
+    dice->attach(this);
     for (int i = 0; i < 54; i++) {
         vertices[i] = new Vertex(i);
     }
@@ -180,7 +182,13 @@ void Board::printBoard() {
     }
 }
 
+void Board::notify() {
+    int rollSum = dice->getSumOfRoll(); 
+    notifyTiles();
+}
+
 Board::~Board() {
+    dice->detach(this);
     for (int i = 0; i < 54; i++) {
         delete vertices[i];
     }
