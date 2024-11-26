@@ -1,3 +1,6 @@
+#ifndef TILE_H
+#define TILE_H
+
 #include "vertex.h"
 #include "edge.h"
 #include <string>
@@ -12,5 +15,8 @@ class Tile {
         Tile(Vertex** adjacentVert, Edge** adjacentEdge, string resourceType = "", int dieValue = -1, bool geeseFlag = false);
         void distributeResources();
         void updateGeese();
+        int getDieVal();
+        string getResource();
 };
- 
+
+#endif 

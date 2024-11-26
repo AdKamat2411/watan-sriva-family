@@ -1,3 +1,6 @@
+#ifndef EDGE_H
+#define EDGE_H
+
 #include "vertex.h"
 #include <string>
 
@@ -9,8 +12,10 @@ class Edge {
         Edge(int Idx, Vertex** arr = nullptr, string owner="");
         bool isAvailabale();
         void setOwner(string s);
-        string getName();
-        int getIdx();
+        string getName() const;
+        int getIdx() const;
 };
 
-ostream& operator<<(ostream& out, Edge v);
+ostream& operator<<(ostream& out,const Edge &e);
+
+#endif

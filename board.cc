@@ -1,7 +1,8 @@
 #include "board.h"
 #include <iostream>
+#include <iomanip>
 
-int vertArr[19][6] = {
+const int Board::vertArr[19][6] = {
     {0, 1, 4, 9, 8, 3},
     {2, 3, 8, 14, 13, 7},
     {4, 5, 10, 16, 15, 9},
@@ -23,7 +24,7 @@ int vertArr[19][6] = {
     {44, 45, 50, 53, 52, 49}
 };
 
-int edgeArr[19][6] = {
+const int Board::edgeArr[19][6] = {
     {0, 2, 7, 10, 6, 1},
     {3, 6, 14, 18, 13, 5},
     {4, 8, 16, 19, 15, 7},
@@ -45,12 +46,12 @@ int edgeArr[19][6] = {
     {61, 65, 70, 71, 69, 64}
 };
 
-Board::Board(int currGeese): currGeese{currGeese} {
+Board::Board(int currGeese): currGeese(currGeese) {
     for (int i = 0; i < 54; i++) {
         vertices[i] = new Vertex(i);
     }
 
-    for (int i = 0; i < 71; i++) {
+    for (int i = 0; i < 72; i++) {
         edges[i] = new Edge(i);
     }
 
@@ -58,10 +59,16 @@ Board::Board(int currGeese): currGeese{currGeese} {
         Vertex* tempVertices[6];
         Edge* tempEdges[6];
         for (int j = 0; j < 6; j++) {
-            tempVertices[i] = vertices[vertArr[i][j]];
-            tempEdges[i] = edges[edgeArr[i][j]];
+            tempVertices[j] = vertices[vertArr[i][j]];
+            tempEdges[j] = edges[edgeArr[i][j]];
         }
-        tiles[i] = new Tile(tempVertices, tempEdges);
+
+        if (i != 0) {
+            tiles[i] = new Tile(tempVertices, tempEdges);
+        } else {
+            tiles[i] = new Tile(tempVertices, tempEdges, "CAFFIENE");
+        }
+        
     }
 }
 
@@ -72,7 +79,7 @@ void printSpaces(int num) {
 }
 
 void printSide(Vertex v0, Edge e0, Vertex v1) {
-    cout << '|' << v0 << '|--' << e0 << '--|' << v1 << '|';
+    cout << '|' << v0 << "|--" << e0 << "--|" << v1 << '|';
 }
 
 // board size is 84x41 chars
@@ -87,13 +94,88 @@ void Board::printBoard() {
             printSpaces(37);
             cout << '\n';
         }
+
+        if (i == 40) {
+            printSpaces(33);
+            printSide(*vertices[52], *edges[71], *vertices[53]);
+            printSpaces(37);
+            cout << '\n';
+        }
+
         if (i == 1) {
             printSpaces(33);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(33);
+            cout << '\n';
         }
+
+        if (i == 39) {
+            printSpaces(33);
+            cout << '\\';
+            printSpaces(12);
+            cout << '/';
+            printSpaces(33);
+            cout << '\n';
+        }
+
+        if (i == 2) {
+            printSpaces(31);
+            cout << *edges[1];
+            printSpaces(6);
+            cout << " 0";
+            printSpaces(5);
+            cout << *edges[2];
+            printSpaces(36);
+            cout << '\n';
+        }
+
+        if (i == 38) {
+            printSpaces(31);
+            cout << *edges[69];
+            printSpaces(14);
+            cout << *edges[70];
+            printSpaces(35);
+            cout << '\n';
+        }
+
+        if (i == 3) {
+            printSpaces(31);
+            cout << '/';
+            printSpaces(5);
+            cout << setw(8) << left << tiles[0]->getResource();
+            printSpaces(3);
+            cout << '\\';
+            cout << '\n';
+        }
+
+        if (i == 37) {
+            printSpaces(31);
+            cout << '\\';
+            printSpaces(16);
+            cout << '/';
+            cout << '\n';
+        }
+
+        if (i == 4) {
+            printSpaces(17);
+            printSide(*vertices[2], *edges[3], *vertices[3]);
+            printSpaces(18);
+            printSide(*vertices[4], *edges[4], *vertices[5]);
+            cout << '\n';
+        }
+
+        if (i == 36) {
+            printSpaces(17);
+            printSide(*vertices[48], *edges[67], *vertices[49]);
+            printSpaces(18);
+            printSide(*vertices[50], *edges[68], *vertices[51]);
+            cout << '\n';
+        }
+
+
+
         
     }
 }
@@ -107,7 +189,7 @@ Board::~Board() {
         delete edges[i];
     }
 
-    for (int i = 0; i < 19; i++) {
-        delete tiles[i];
-    }
+    // for (int i = 0; i < 19; i++) {
+    //     delete tiles[i];
+    // }
 }

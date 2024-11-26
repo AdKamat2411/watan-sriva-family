@@ -1,7 +1,7 @@
 #include "tile.h"
 
 Tile::Tile(Vertex** vertArr, Edge** edgeArr, string resourceType, int dieValue, bool geeseFlag):
-    resourceType{resourceType}, dieValue{dieValue}, geeseFlag{geeseFlag} {
+    resourceType(resourceType), dieValue(dieValue), geeseFlag(geeseFlag) {
         for (int i = 0; i < 6; i++) {
             adjacentVert[i] = vertArr[i];
             adjacentEdge[i] = edgeArr[i];
@@ -9,6 +9,10 @@ Tile::Tile(Vertex** vertArr, Edge** edgeArr, string resourceType, int dieValue, 
     }
 
 void Tile::updateGeese() { geeseFlag = !geeseFlag;}
+
+int Tile::getDieVal() { return dieValue; }
+
+string Tile::getResource() { return resourceType; }
 
 
 

@@ -1,3 +1,6 @@
+#ifndef VERTEX_H
+#define VERTEX_H
+
 #include <string>
 #include <iostream>
 
@@ -11,10 +14,12 @@ class Vertex {
         Vertex(int Idx, std::string owner = "", int houseLevel = 0);
         void upgradeCriterion();
         bool isAvailabale();
-        string getName();
-        int getIdx();
+        string getName() const;
+        int getIdx() const;
         void setOwner(string s);
 };
 
-export ostream& operator<<(ostream& out, Vertex v);
+ostream& operator<<(ostream& out, const Vertex &v);
 
+
+#endif
