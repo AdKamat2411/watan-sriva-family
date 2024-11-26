@@ -16,6 +16,13 @@ string Tile::getResource() { return resourceType; }
 
 void Tile::distributeResources() {
     std::cout << "Resources distributed for tile: " << resourceType << std::endl;
+    std::cout << "Die Value distributed for tile: " << dieValue << std::endl;
 }
 
+void Tile::setResource(const std::string& resource) {
+    resourceType = resource;
+}
 
+void Tile::setDieVal(int value) {
+    dieValue = value;
+}

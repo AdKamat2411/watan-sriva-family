@@ -8,12 +8,14 @@
 #include "observer.h"
 #include "dice.h"
 
+class BoardSetup;
+
 class Board: public Observer {
     Vertex* vertices[54];
     Edge* edges[72];
-    Tile* tiles[19];
     int currGeese;
     Dice* dice; 
+    Tile* tiles[19];
     public:
         static const int vertArr[19][6];
         static const int edgeArr[19][6];
@@ -22,7 +24,8 @@ class Board: public Observer {
         void notify() override;
         void printBoard();
         void notifyTiles();
-        void initializeBoard(); // sets resourceType and dieValue for each tile
+        void initializeBoard(BoardSetup& setupStrategy); // sets resourceType and dieValue for each tile
+        Tile* getTile(int index) const;
         ~Board() noexcept;
 };
 

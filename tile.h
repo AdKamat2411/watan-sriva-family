@@ -17,6 +17,8 @@ class Tile {
         void updateGeese();
         int getDieVal();
         string getResource();
+        void setResource(const std::string& resource);
+        void setDieVal(int value);
 };
 
 #endif 

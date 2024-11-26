@@ -2,6 +2,7 @@
 #include <iostream>
 #include "observer.h"
 #include <iomanip>
+#include "boardsetup.h"
 
 const int Board::vertArr[19][6] = {
     {0, 1, 4, 9, 8, 3},
@@ -206,4 +207,12 @@ Board::~Board() {
     // for (int i = 0; i < 19; i++) {
     //     delete tiles[i];
     // }
+}
+
+void Board::initializeBoard(BoardSetup& setupStrategy) {
+    setupStrategy.setup(*this);
+}
+
+Tile* Board::getTile(int index) const {
+    return tiles[index];
 }
