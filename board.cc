@@ -815,3 +815,11 @@ Vertex* Board::getVertex(int index) const {
         }
     }
 }
+
+Vertex** Board::getVertices() {
+    return vertices;
+}
+
+Edge** Board::getEdges() {
+    return edges;
+}

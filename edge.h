@@ -4,8 +4,9 @@
 #include "vertex.h"
 #include <string>
 
-class Edge {
+class player;
 
+class Edge {
     string owner;
     int Idx;
     Vertex* arr[2];
@@ -18,6 +19,7 @@ class Edge {
         void setVertices(Vertex* v1, Vertex* v2);
         Vertex** getVertices();
         Vertex* getConnectedVertex(int index) const; 
+        friend class player;
 };
 
 ostream& operator<<(ostream& out,const Edge &e);

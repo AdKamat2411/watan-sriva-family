@@ -14,10 +14,10 @@ class GameManager {
     int currentTurn;
 
     void initializePlayers();
-    void initializeBoard();
     void playTurn(Player* player);
     bool checkVictory(Player* player);
     void initialPlacementPhase();
+    Player* findPlayerByColor(const std::string& color);
     
   public:
     GameManager();

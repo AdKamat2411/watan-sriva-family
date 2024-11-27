@@ -132,7 +132,7 @@ bool Player::buildCriterion(Vertex& targetVertex, Edge* connectedEdges[], int nu
     removeResources("LECTURE", LECTURE_REQUIRED);
     removeResources("TUTORIAL", TUTORIAL_REQUIRED);
     targetVertex.setOwner(color);
-    targetVertex.upgradeCriterion();
+    upgradeCriterion(targetVertex);
     addVictoryPoints(1);
 
     // Build the criterion: Set ownership and house level

@@ -14,7 +14,7 @@ class Player {
             string name;  // Name of the resource
             int count;    // Count of the resource
         };
-
+        int idx;
         string color;               // Color of the player
         int victoryPoints;          // Total victory points
         static const int NUM_RESOURCES = 5; // Fixed number of resources
@@ -28,7 +28,7 @@ class Player {
         int findResource(const string& resourceName) const;
 
     public:
-        Player(const string& color);
+        Player(const string& color, int idx);
         string getColor() const;
         int getVictoryPoints() const;
         void addResources(const string& resourceName, int amount);

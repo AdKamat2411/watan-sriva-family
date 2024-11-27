@@ -29,6 +29,8 @@ class Board: public Subject, public Observer {
         ~Board() noexcept;
         int* getVerticesConnectedToEdge(int edge);
         Vertex* getVertex(int index) const;
+        Vertex** getVertices(); 
+        Edge** getEdges();
 };
 
 #endif
