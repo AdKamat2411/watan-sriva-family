@@ -160,6 +160,8 @@ void printSide(Vertex v0, Edge e0, Vertex v1) {
 void printGeese(int tileNum, Tile** tiles) {
     if (tiles[tileNum]->isGeese()) {
         cout << "GEESE";
+    } else {
+        cout << "     ";
     }
 }
 
