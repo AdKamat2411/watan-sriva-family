@@ -2,6 +2,8 @@
 #define SUBJECT_H
 #include <vector>
 
+class Player;
+
 class Observer; // forward declaration
 
 class Subject {
@@ -9,7 +11,7 @@ class Subject {
  public:
   void attach( Observer* o );
   void detach( Observer* o );
-  void notifyObservers();
+  void notifyObservers(int rollSum, std::vector<Player*>& players, int currTurn);
   virtual ~Subject() = default;
   std::vector<Observer*> getObservers();
 };

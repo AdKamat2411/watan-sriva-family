@@ -5,6 +5,7 @@
 #include "edge.h"
 #include <string>
 #include "observer.h"
+#include "player.h"
 
 class Tile : public Observer {
     string resourceType;
@@ -14,13 +15,13 @@ class Tile : public Observer {
     Edge* adjacentEdge[6];
     public:
         Tile(Vertex** adjacentVert, Edge** adjacentEdge, string resourceType = "", int dieValue = -1, bool geeseFlag = false);
-        void distributeResources();
+        void distributeResources(std::vector<Player*>& players);
         void updateGeese();
         int getDieVal();
         string getResource();
         void setResource(const std::string& resource);
         void setDieVal(int value);
-        void notify(int rollSum) override;
+        void notify(int rollSum, std::vector<Player*>& players, int currTurn) override;
 };
 
 #endif 

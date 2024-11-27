@@ -805,18 +805,18 @@ void Board::printBoard() {
     }
 }
 
-void Board::notify(int rollSum) {
+void Board::notify(int rollSum, std::vector<Player*>& players, int currTurn) {
     if (rollSum == -1) {
         rollSum = dice->getSumOfRoll();
     }
-    notifyTiles(rollSum);
+    notifyTiles(rollSum, players, currTurn);
 }
 
-void Board::notifyTiles(int rollSum) {
+void Board::notifyTiles(int rollSum, std::vector<Player*>& players, int currTurn) {
     for (int i = 0; i < 19; i++) {
         if (tiles[i]->getDieVal() == rollSum) {
-            
-            tiles[i]->notify(rollSum);
+            tiles[i]->notify(rollSum, players, currTurn);
+            players[currTurn]->addResources(tiles[i]->getResource(), 1);
         }
     }
 }

@@ -24,6 +24,7 @@ class GameManager {
     ~GameManager();
     void initializeGame();
     void startGame();
+    int getcurrTurn();
 };
 
 #endif

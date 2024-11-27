@@ -101,9 +101,9 @@ void GameManager::playTurn(Player* player) {
       dice = DiceFactory::createDice(DiceType::Fair);
       cout << "Fair dice selected." << endl;
     } else if (dcommand == "roll") {
-      dice->roll();
+      dice->roll(players);
       cout << "Dice rolled: " << dice->getSumOfRoll() << endl;
-      board->notify(dice->getSumOfRoll());
+      board->notifyTiles(dice->getSumOfRoll(), players, currentTurn);
       diceRolled = true;
     } else {
         cout << "Invalid command. Please enter 'load', 'fair', or 'roll'." << endl;
@@ -175,18 +175,29 @@ void GameManager::playTurn(Player* player) {
             }
         }
     } else if (command == "trade") {
-        string targetColor, give, take;
-        cin >> targetColor >> give >> take;
-        Player* targetPlayer = findPlayerByColor(targetColor); 
-        if (targetPlayer) {
+      string targetColor, give, take;
+      cin >> targetColor >> give >> take;
+      Player* targetPlayer = findPlayerByColor(targetColor); 
+      if (targetPlayer) {
+        cout << player->getColor() << " offers " << targetColor << " one " << give 
+            << " for one " << take << "." << endl;
+        cout << "Does " << targetColor << " accept this offer? (Y/N)" << endl;
+
+        char response;
+        cin >> response;
+
+        if (response == 'Y' || response == 'y') { 
             if (Player::trade(*player, *targetPlayer, give, take)) {
                 cout << "Trade with " << targetColor << " successful." << endl;
             } else {
                 cout << "Trade with " << targetColor << " failed." << endl;
             }
         } else {
-            cout << "Player " << targetColor << " not found." << endl;
+            cout << targetColor << " does not accept the trade." << endl;
         }
+      } else {
+          cout << "Player " << targetColor << " not found." << endl;
+      }
     // } else if (command == "save") {
     //     string filename;
     //     cin >> filename;
@@ -217,3 +228,6 @@ bool GameManager::checkVictory(Player* player) {
     return player->getVictoryPoints() >= 10; 
 }
 
+int GameManager::getcurrTurn() {
+  return currentTurn;
+}
