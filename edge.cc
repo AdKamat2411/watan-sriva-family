@@ -30,7 +30,7 @@ ostream& operator<<(ostream& out, const Edge &e) {
     if (e.getName() == "") {
         out << std::setw(2) << std::right << e.getIdx();
     } else {
-        out << e.getName();
+        out << e.getName() << 'A';
     }
     return out;
 }
