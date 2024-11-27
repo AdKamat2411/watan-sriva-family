@@ -16,8 +16,10 @@ void Subject::detach( Observer* o ) {
   }
 }
 
-void Subject::notifyObservers() {
-  for (auto p: observers) p->notify();
+void Subject::notifyObservers(int rollSum, std::vector<Player*>& players, int currTurn) { 
+    for (auto p : observers) {
+        p->notify(rollSum, players, currTurn); 
+    }
 }
 
 std::vector<Observer*> Subject::getObservers() {

@@ -16,10 +16,15 @@ int Tile::getDieVal() { return dieValue; }
 
 string Tile::getResource() { return resourceType; }
 
-void Tile::distributeResources() {
+void Tile::distributeResources(std::vector<Player*>& players) {
     for (int i = 0; i < 6; ++i) {
-        if (!adjacentVert[i]->isAvailable()) {
-            
+        Vertex* vertex = adjacentVert[i];
+        if (vertex && !vertex->getName().empty()) { 
+            for (auto& player : players) {
+                if (player->getColor() == vertex->getName()) {
+                    player->addResources(resourceType, 1);
+                }
+            }
         }
     }
 }
@@ -32,9 +37,9 @@ void Tile::setDieVal(int value) {
     dieValue = value;
 }
 
-void Tile::notify(int rollSum) {
-    if (rollSum == dieValue) { 
-        distributeResources();
+void Tile::notify(int rollSum, std::vector<Player*>& players, int currTurn) {
+    if (rollSum == dieValue) {
+        distributeResources(players);
     }
 }
 

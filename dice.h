@@ -8,28 +8,30 @@
 
 using namespace std;
 
+class Player;
+
 class Dice : public Subject {
   protected:
     int sumOfRoll;
   public:
     Dice() : sumOfRoll(0) {}
     virtual ~Dice() {}
-    virtual void roll() = 0;
+    virtual void roll(std::vector<Player*>& players) = 0;
     int getSumOfRoll() const { return sumOfRoll; }
 };
 
 class FairDice : public Dice {
   public:
     FairDice() { srand(time(nullptr)); }
-    void roll() override {
+    void roll(std::vector<Player*>& players) override { 
       sumOfRoll = (rand() % 6 + 1) + (rand() % 6 + 1);
-      notifyObservers();
+      notifyObservers(sumOfRoll, players, 0); 
     }
 };
 
 class LoadedDice : public Dice {
   public:
-    void roll() override {
+    void roll(std::vector<Player*>& players) override { 
       int inputRoll = 0;
       bool validInput = false;
       while (!validInput) {
@@ -44,7 +46,7 @@ class LoadedDice : public Dice {
         }
       }
       sumOfRoll = inputRoll;
-      notifyObservers();
+      notifyObservers(sumOfRoll, players, 0); 
     }
 };
 

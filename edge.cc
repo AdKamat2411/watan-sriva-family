@@ -39,7 +39,7 @@ ostream& operator<<(ostream& out, const Edge &e) {
         } else {
             out << "Y";
         }
-        out << e.getName() << 'A';
+        out << 'A';
     }
     return out;
 }

@@ -7,6 +7,7 @@
 #include "subject.h"
 #include "observer.h"
 #include "dice.h"
+#include "player.h"
 
 class BoardSetup;
 
@@ -21,9 +22,8 @@ class Board: public Subject, public Observer {
         static const int edgeArr[19][6];
 
         Board(Dice* dice, int currGeese = -1);
-        void notify(int rollSum = -1) override;
         void printBoard();
-        void notifyTiles(int rollSum);
+        void notifyTiles(int rollSum, std::vector<Player*>& players, int currTurn);
         void initializeBoard(BoardSetup& setupStrategy); // sets resourceType and dieValue for each tile
         Tile* getTile(int index) const;
         ~Board() noexcept;
@@ -32,6 +32,7 @@ class Board: public Subject, public Observer {
         Vertex** getVertices(); 
         Edge** getEdges();
         Tile** getTiles();
+        void notify(int rollSum, std::vector<Player*>& players, int currTurn) override;
 };
 
 #endif

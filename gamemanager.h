@@ -27,6 +27,7 @@ class GameManager {
     Board* getBoard();
     std::vector<Player*> getPlayers();
     string getCurrentPlayer();
+    int getcurrTurn();
 };
 
 #endif
