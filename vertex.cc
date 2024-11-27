@@ -35,10 +35,10 @@ ostream& operator<<(ostream& out, const Vertex &v) {
         out << v.getName();
         if (v.getHouseLevel() == "Assignment") {
             out << "A";
-        } else if (v.getHouelevel() == "Midterm") {
+        } else if (v.getHouseLevel() == "Midterm") {
             out << "M";
         } else {
-            out << "E"
+            out << "E";
         }
     }
     return out;

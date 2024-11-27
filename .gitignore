@@ -1,0 +1,10 @@
+tile.o
+vertex.o
+edge.o
+dice.o
+a.out
+dice.h.gch
+edge.h.gch
+tile.h.gch
+vertex.h.gch
+.vscode/settings.json
