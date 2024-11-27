@@ -5,6 +5,7 @@
 #include <string>
 
 class Edge {
+
     string owner;
     int Idx;
     Vertex* arr[2];
@@ -14,6 +15,8 @@ class Edge {
         void setOwner(string s);
         string getName() const;
         int getIdx() const;
+        void setVertices(Vertex* v1, Vertex* v2);
+        Vertex** getVertices();
         Vertex* getConnectedVertex(int index) const; 
 };
 

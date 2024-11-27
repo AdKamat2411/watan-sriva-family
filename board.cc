@@ -56,6 +56,8 @@ Board::Board(Dice* dice, int currGeese) : dice(dice), currGeese(currGeese) {
 
     for (int i = 0; i < 72; i++) {
         edges[i] = new Edge(i);
+        int* connectedVert = getVerticesConnectedToEdge(i);
+        edges[i]->setVertices(vertices[connectedVert[0]], vertices[connectedVert[1]]);
     }
 
     for (int i = 0; i < 19; i++) {
@@ -65,14 +67,45 @@ Board::Board(Dice* dice, int currGeese) : dice(dice), currGeese(currGeese) {
             tempVertices[j] = vertices[vertArr[i][j]];
             tempEdges[j] = edges[edgeArr[i][j]];
         }
-
-        if (i != 0) {
-            tiles[i] = new Tile(tempVertices, tempEdges);
-        } else {
-            tiles[i] = new Tile(tempVertices, tempEdges, "CAFFIENE");
-        }
-
+        tiles[i] = new Tile(tempVertices, tempEdges);
     }
+}
+
+int* Board::getVerticesConnectedToEdge(int edge) {
+    int result[2];
+    int index = 0;
+
+    for (int i = 0; i < 19; i++) {
+        for (int j = 0; j < 6; j++) {
+            if (edgeArr[i][j] == edge) {
+                int tileIndex1 = i;
+
+                int tileIndex2 = -1;
+                for (int k = 0; k < 19; k++) {
+                    if (k != tileIndex1) {
+                        for (int l = 0; l < 6; l++) {
+                            if (edgeArr[k][l] == edge) {
+                                tileIndex2 = k;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (tileIndex2 != -1) {
+                    for (int m = 0; m < 6; m++) {
+                        for (int n = 0; n < 6; n++) {
+                            if (vertArr[tileIndex1][m] == vertArr[tileIndex2][n]) {
+                                result[index++] = vertArr[tileIndex1][m];
+                                if (index == 2) return result;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return result;
 }
 
 void printSpaces(int num) {

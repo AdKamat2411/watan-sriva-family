@@ -13,6 +13,15 @@ void Edge::setOwner(string s) {
     owner = s;
 }
 
+void Edge::setVertices(Vertex* v1, Vertex* v2) {
+    arr[0] = v1;
+    arr[1] = v2;
+}
+
+Vertex** Edge::getVertices() {
+    return arr;
+}
+
 int Edge::getIdx() const { return Idx; }
 
 string Edge::getName() const { return owner; }
