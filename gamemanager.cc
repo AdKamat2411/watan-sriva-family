@@ -20,7 +20,6 @@ void GameManager::initializeGame() {
   RandomBoardSetup setup;
   board->initializeBoard(setup);
   initializePlayers();
-  initialPlacementPhase();
 }
 
 void GameManager::initializePlayers() {
@@ -216,3 +215,4 @@ void GameManager::playTurn(Player* player) {
 bool GameManager::checkVictory(Player* player) {
     return player->getVictoryPoints() >= 10; 
 }
+

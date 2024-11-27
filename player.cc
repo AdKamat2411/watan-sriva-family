@@ -102,7 +102,8 @@ bool Player::buildCriterion(Vertex& targetVertex, Edge* connectedEdges[], int nu
         Edge* edge = connectedEdges[i];
         if (edge) {
             for (int j = 0; j < 2; ++j) { // Iterate through the two vertices connected by the edge
-                Vertex* connectedVertex = edge->getConnectedVertex(j);
+                Vertex** vertArr = edge->getVertices();
+                Vertex* connectedVertex = vertArr[j];
                 if (connectedVertex && connectedVertex != &targetVertex) { // Skip the target vertex
                     if (connectedVertex->getName() != "") { // Check if this vertex is already owned
                         cerr << "Cannot build on Vertex " << targetVertex.getIdx()
@@ -218,7 +219,8 @@ bool Player::claimEdge(Edge& targetEdge, Edge* allEdges[], int numEdges) {
     // Check ownership of a connecting vertex or adjacent edge
     bool canClaim = false;
     for (int i = 0; i < 2; ++i) { // Loop through the two vertices connected by the edge
-        Vertex* vertex = targetEdge.arr[i];
+        Vertex** vertArr = targetEdge.getVertices();
+        Vertex* vertex = vertArr[i];
         if (vertex && vertex->getName() == color) {
             // Player owns a criterion on this vertex
             canClaim = true;
@@ -229,7 +231,7 @@ bool Player::claimEdge(Edge& targetEdge, Edge* allEdges[], int numEdges) {
         for (int j = 0; j < numEdges; ++j) {
             Edge* adjacentEdge = allEdges[j];
             if (adjacentEdge != &targetEdge) { // Skip the current edge
-                if (adjacentEdge->arr[0] == vertex || adjacentEdge->arr[1] == vertex) {
+                if (adjacentEdge->getVertices()[0] == vertex || adjacentEdge->getVertices()[1] == vertex) {
                     if (adjacentEdge->getName() == color) {
                         // Player owns an adjacent edge
                         canClaim = true;

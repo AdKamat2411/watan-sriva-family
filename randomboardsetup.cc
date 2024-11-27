@@ -26,7 +26,7 @@ void RandomBoardSetup::assignResources(Board& board) {
   };
 
   for (int i = 0; i < 19; ++i) {
-    std::cout << "Processing tile " << i << "..." << std::endl;
+    std::cout << "Processing tile" << i << "..." << std::endl;
     Tile* tile = board.getTile(i);
     int resourceIndex = rand() % resources.size();
     string selectedResource = resources[resourceIndex];

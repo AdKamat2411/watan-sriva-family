@@ -41,3 +41,7 @@ Vertex* Edge::getConnectedVertex(int index) const {
     }
     return arr[index];
 }
+
+bool Edge::isAvailabale() {
+    return (owner == "");
+}
