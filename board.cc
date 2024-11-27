@@ -157,6 +157,12 @@ void printSide(Vertex v0, Edge e0, Vertex v1) {
 // each tile side has 16 chars
 // empty space in the centre of the tile is 16 chars
 
+void printGeese(int tileNum, Tile** tiles) {
+    if (tiles[tileNum]->isGeese()) {
+        cout << "GEESE";
+    }
+}
+
 void Board::printBoard() {
     for (int i = 0; i < 41; i++) {
         if (i == 0) {
@@ -859,3 +865,5 @@ Vertex** Board::getVertices() {
 Edge** Board::getEdges() {
     return edges;
 }
+
+Tile** Board::getTiles() { return tiles; }

@@ -31,6 +31,7 @@ class Board: public Subject, public Observer {
         Vertex* getVertex(int index) const;
         Vertex** getVertices(); 
         Edge** getEdges();
+        Tile** getTiles();
         void notify(int rollSum, std::vector<Player*>& players, int currTurn) override;
 };
 

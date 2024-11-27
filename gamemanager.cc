@@ -235,3 +235,10 @@ bool GameManager::checkVictory(Player* player) {
 int GameManager::getcurrTurn() {
   return currentTurn;
 }
+
+Board* GameManager::getBoard() { return board; }
+
+std::vector<Player*> GameManager::getPlayers() { return players; }
+
+string GameManager::getCurrentPlayer() { return players[currentTurn]->getColor(); }
+
