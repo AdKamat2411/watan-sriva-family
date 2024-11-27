@@ -7,7 +7,7 @@
 using namespace std;
 
 class Vertex {
-    std::string owner;
+    string owner;
     string houseLevel; // "Assignment", "Midterm", "Exam"
     int Idx;
 
@@ -19,7 +19,9 @@ public:
     string getHouseLevel() const; // Accessor for houseLevel
     void setOwner(string s);
     void setHouseLevel(const string& level); // Mutator for houseLevel
+    
 };
+
 
 ostream& operator<<(ostream& out, const Vertex& v);
 

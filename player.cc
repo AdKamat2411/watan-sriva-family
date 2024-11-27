@@ -131,12 +131,9 @@ bool Player::buildCriterion(Vertex& targetVertex, Edge* connectedEdges[], int nu
     removeResources("LAB", LAB_REQUIRED);
     removeResources("LECTURE", LECTURE_REQUIRED);
     removeResources("TUTORIAL", TUTORIAL_REQUIRED);
-<<<<<<< HEAD
-=======
     targetVertex.setOwner(color);
     targetVertex.upgradeCriterion();
     addVictoryPoints(1);
->>>>>>> a79f4f3c923b8cfefabdfd6011905e7688d05a6e
 
     // Build the criterion: Set ownership and house level
     targetVertex.setOwner(color); // Assign ownership to the player
@@ -199,10 +196,70 @@ bool Player::upgradeCriterion(Vertex& targetVertex) {
         cerr << "Criterion is already at the maximum level (Exam)." << endl;
         return false;
     }
-
     return true;
 }
 
+bool Player::claimEdge(Edge& targetEdge, Edge* allEdges[], int numEdges) {
+    const int TUTORIAL_COST = 1;
+    const int STUDY_COST = 1;
+
+    // Check if the edge is available
+    if (!targetEdge.isAvailabale()) {
+        cerr << "Edge " << targetEdge.getIdx() << " is already owned by another player." << endl;
+        return false;
+    }
+
+    // Check resource availability
+    if (getResourceCount("TUTORIAL") < TUTORIAL_COST || getResourceCount("STUDY") < STUDY_COST) {
+        cerr << "Not enough resources to claim the edge. Requires 1 TUTORIAL and 1 STUDY." << endl;
+        return false;
+    }
+
+    // Check ownership of a connecting vertex or adjacent edge
+    bool canClaim = false;
+    for (int i = 0; i < 2; ++i) { // Loop through the two vertices connected by the edge
+        Vertex* vertex = targetEdge.arr[i];
+        if (vertex && vertex->getName() == color) {
+            // Player owns a criterion on this vertex
+            canClaim = true;
+            break;
+        }
+
+        // Check for adjacent edges sharing this vertex
+        for (int j = 0; j < numEdges; ++j) {
+            Edge* adjacentEdge = allEdges[j];
+            if (adjacentEdge != &targetEdge) { // Skip the current edge
+                if (adjacentEdge->arr[0] == vertex || adjacentEdge->arr[1] == vertex) {
+                    if (adjacentEdge->getName() == color) {
+                        // Player owns an adjacent edge
+                        canClaim = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (canClaim) {
+            break; // No need to check further if the edge can already be claimed
+        }
+    }
+
+    if (!canClaim) {
+        cerr << "Cannot claim Edge " << targetEdge.getIdx()
+             << ". You must own a connected criterion or an adjacent edge." << endl;
+        return false;
+    }
+
+    // Deduct resources
+    removeResources("TUTORIAL", TUTORIAL_COST);
+    removeResources("STUDY", STUDY_COST);
+
+    // Claim the edge
+    targetEdge.setOwner(color);
+    cout << color << " player successfully claimed Edge " << targetEdge.getIdx() << "." << endl;
+
+    return true;
+}
 
 void Player::addVictoryPoints(int points) {
     victoryPoints += points;
@@ -216,4 +273,27 @@ void Player::printStatus() const {
     << getResourceCount("TUTORIAL") << " tutorials, and "
     << getResourceCount("STUDY") << " studies." << endl;
 }
+
+void Player::printCompletions(Vertex* allVertices[], int numVertices) const {
+    int assignments = 0, midterms = 0, exams = 0;
+    for (int i = 0; i < numVertices; ++i) {
+        Vertex* vertex = allVertices[i];
+        if (vertex && vertex->getName() == color) { 
+            string houseLevel = vertex->getHouseLevel();
+            if (houseLevel == "Assignment") {
+                ++assignments;
+            } else if (houseLevel == "Midterm") {
+                ++midterms;
+            } else if (houseLevel == "Exam") {
+                ++exams;
+            }
+        }
+    }
+    cout << assignments << " 1 " << midterms << " 2 " << exams << " 3" << endl;
+}
+
+
+
+
+
 

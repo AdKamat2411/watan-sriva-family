@@ -28,11 +28,18 @@ bool Vertex::isAvailabale() const {
     return owner.empty();
 }
 
-ostream& operator<<(ostream& out, const Vertex& v) {
-    if (v.getName().empty()) {
+ostream& operator<<(ostream& out, const Vertex &v) {
+    if (v.getName() == "") {
         out << std::setw(2) << std::right << v.getIdx();
     } else {
-        out << v.getName() << " (" << v.getHouseLevel() << ")";
+        out << v.getName();
+        if (v.getHouseLevel() == "Assignment") {
+            out << "A";
+        } else if (v.getHouelevel() == "Midterm") {
+            out << "M";
+        } else {
+            out << "E"
+        }
     }
     return out;
 }

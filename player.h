@@ -39,6 +39,8 @@ class Player {
         bool upgradeCriterion(Vertex& targetVertex);
         void addVictoryPoints(int points);
         void printStatus() const;
+        void printCompletions(Vertex* allVertices[], int numVertices) const;
+        bool claimEdge(Edge& targetEdge, Edge* allEdges[], int numEdges);
 };
 
 #endif // PLAYER_H

@@ -5,6 +5,7 @@
 #include <string>
 
 class Edge {
+
     string owner;
     int Idx;
     Vertex* arr[2];
