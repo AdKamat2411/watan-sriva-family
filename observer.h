@@ -3,7 +3,7 @@
 
 class Observer {
  public:
-  virtual void notify() = 0;
+  virtual void notify(int rollSum = -1) = 0;
   virtual ~Observer() = default;
 };
 
