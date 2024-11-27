@@ -46,4 +46,4 @@ void Tile::notify(int rollSum, std::vector<Player*>& players, int currTurn) {
 Vertex** Tile::getAdjacentVertices() { return adjacentVert; }
 
 
-bool Tile::isGeese() { return updateGeese; }
+bool Tile::isGeese() { return geeseFlag; }
