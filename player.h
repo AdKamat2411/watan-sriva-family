@@ -19,11 +19,11 @@ class Player {
         int victoryPoints;          // Total victory points
         static const int NUM_RESOURCES = 5; // Fixed number of resources
         Resource resources[NUM_RESOURCES] = { // Predefined resources with initial counts of 0
-            {"CAFFEINE", 0},
-            {"LAB", 0},
-            {"LECTURE", 0},
+            {"CAFFEINE", 2},
+            {"LAB", 2},
+            {"LECTURE", 2},
             {"STUDY", 0},
-            {"TUTORIAL", 0}
+            {"TUTORIAL", 2}
         };
         int findResource(const string& resourceName) const;
 

@@ -32,7 +32,15 @@ ostream& operator<<(ostream& out, const Vertex &v) {
     if (v.getName() == "") {
         out << std::setw(2) << std::right << v.getIdx();
     } else {
-        out << v.getName();
+        if (v.getName() == "Blue") {
+            out << "B";
+        } else if (v.getName() == "Orange") {
+            out << "O";
+        } else if (v.getName() == "Red") {
+            out << "R";
+        } else {
+            out << "Y";
+        }
         if (v.getHouseLevel() == "Assignment") {
             out << "A";
         } else if (v.getHouseLevel() == "Midterm") {

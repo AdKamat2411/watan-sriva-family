@@ -19,7 +19,9 @@ void GameManager::initializeGame() {
   board = new Board(dice);
   RandomBoardSetup setup;
   board->initializeBoard(setup);
+  board->printBoard();
   initializePlayers();
+  initialPlacementPhase();
 }
 
 void GameManager::initializePlayers() {
@@ -55,16 +57,15 @@ void GameManager::initialPlacementPhase() {
         cout << "Invalid input. Please enter a valid vertex index: " << endl;
       } else {
         Vertex* targetVertex = board->getVertex(vertexIndex);
-        //to be fixed
-        if (targetVertex->isAvailable() && currPlayer->buildCriterion(*targetVertex, nullptr, 0)) {
+        if (targetVertex->isAvailable() && currPlayer->buildCriterion(*targetVertex, board->getEdges(), 72)) {
           validPlacement = true;
         } else {
           cout << "Vertex " << vertexIndex << " is not available. Choose another: " << endl;
         }
       }
+      board->printBoard();
     }
   }
-  board->printBoard();
 }
 
 void GameManager::startGame() {

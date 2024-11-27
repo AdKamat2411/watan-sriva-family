@@ -17,12 +17,9 @@ int Tile::getDieVal() { return dieValue; }
 string Tile::getResource() { return resourceType; }
 
 void Tile::distributeResources() {
-    cout << "The tile in action is: " << endl;
-    cout << "Resource type: " << resourceType << endl;
-    cout << "Die Value: " << dieValue << endl;
     for (int i = 0; i < 6; ++i) {
-        if (adjacentVert[i]->getName() != "") {
-            cout << "Give resources to this person" << endl;
+        if (!adjacentVert[i]->isAvailable()) {
+            
         }
     }
 }

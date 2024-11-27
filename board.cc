@@ -3,6 +3,7 @@
 #include "observer.h"
 #include <iomanip>
 #include "boardsetup.h"
+#include <vector>
 
 const int Board::vertArr[19][6] = {
     {0, 1, 4, 9, 8, 3},
@@ -53,13 +54,11 @@ Board::Board(Dice* dice, int currGeese) : dice(dice), currGeese(currGeese) {
     for (int i = 0; i < 54; i++) {
         vertices[i] = new Vertex(i);
     }
-
     for (int i = 0; i < 72; i++) {
         edges[i] = new Edge(i);
-        int* connectedVert = getVerticesConnectedToEdge(i);
+        std::vector<int> connectedVert = getVerticesConnectedToEdge(i);
         edges[i]->setVertices(vertices[connectedVert[0]], vertices[connectedVert[1]]);
     }
-
     for (int i = 0; i < 19; i++) {
         Vertex* tempVertices[6];
         Edge* tempEdges[6];
@@ -70,11 +69,47 @@ Board::Board(Dice* dice, int currGeese) : dice(dice), currGeese(currGeese) {
         tiles[i] = new Tile(tempVertices, tempEdges);
     }
 }
+int boundary_edges[] = {0, 2, 4, 8, 11, 17, 25, 34, 42, 51, 59, 62, 66, 68, 70, 71, 69, 67, 63, 60, 54, 46, 37, 29, 20, 12, 9, 5, 3, 1};
+int vertices_edges[][2] = {
+    {0, 1},
+    {1, 4},
+    {4, 5},
+    {5, 10},
+    {10, 11},
+    {11, 17},
+    {17, 23},
+    {23, 29},
+    {29, 35},
+    {35, 41},
+    {41, 47},
+    {46, 47},
+    {46, 51},
+    {51, 50},
+    {50, 53},
+    {53, 52},
+    {52, 49},
+    {49, 48},
+    {48, 43},
+    {43, 42},
+    {42, 36},
+    {36, 30},
+    {30, 24},
+    {24, 18},
+    {18, 12},
+    {12, 6},
+    {6, 7},
+    {7, 2},
+    {2, 3},
+    {3, 0}
+};
 
-int* Board::getVerticesConnectedToEdge(int edge) {
-    int result[2];
-    int index = 0;
-
+std::vector<int> Board::getVerticesConnectedToEdge(int edge) {
+    std::vector<int> result; // Dynamic vector to store connected vertices
+    for (int k = 0; k < 30; ++k) {
+        if (edge == boundary_edges[k]) {
+            return {vertices_edges[k][0], vertices_edges[k][1]};
+        }
+    }
     for (int i = 0; i < 19; i++) {
         for (int j = 0; j < 6; j++) {
             if (edgeArr[i][j] == edge) {
@@ -96,8 +131,8 @@ int* Board::getVerticesConnectedToEdge(int edge) {
                     for (int m = 0; m < 6; m++) {
                         for (int n = 0; n < 6; n++) {
                             if (vertArr[tileIndex1][m] == vertArr[tileIndex2][n]) {
-                                result[index++] = vertArr[tileIndex1][m];
-                                if (index == 2) return result;
+                                result.push_back(vertArr[tileIndex1][m]);
+                                if (result.size() == 2) return result; // Found both vertices
                             }
                         }
                     }
@@ -780,6 +815,7 @@ void Board::notify(int rollSum) {
 void Board::notifyTiles(int rollSum) {
     for (int i = 0; i < 19; i++) {
         if (tiles[i]->getDieVal() == rollSum) {
+            
             tiles[i]->notify(rollSum);
         }
     }

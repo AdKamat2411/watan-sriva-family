@@ -27,7 +27,7 @@ class Board: public Subject, public Observer {
         void initializeBoard(BoardSetup& setupStrategy); // sets resourceType and dieValue for each tile
         Tile* getTile(int index) const;
         ~Board() noexcept;
-        int* getVerticesConnectedToEdge(int edge);
+        std::vector<int> getVerticesConnectedToEdge(int edge);
         Vertex* getVertex(int index) const;
         Vertex** getVertices(); 
         Edge** getEdges();
