@@ -24,6 +24,9 @@ class GameManager {
     ~GameManager();
     void initializeGame();
     void startGame();
+    Board* getBoard();
+    std::vector<Player*> getPlayers();
+    string getCurrentPlayer();
 };
 
 #endif

@@ -217,3 +217,9 @@ bool GameManager::checkVictory(Player* player) {
     return player->getVictoryPoints() >= 10; 
 }
 
+Board* GameManager::getBoard() { return board; }
+
+std::vector<Player*> GameManager::getPlayers() { return players; }
+
+string GameManager::getCurrentPlayer() { return players[currentTurn]->getColor(); }
+

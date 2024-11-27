@@ -37,3 +37,8 @@ void Tile::notify(int rollSum) {
         distributeResources();
     }
 }
+
+Vertex** Tile::getAdjacentVertices() { return adjacentVert; }
+
+
+bool Tile::isGeese() { return updateGeese; }

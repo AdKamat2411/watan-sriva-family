@@ -21,6 +21,8 @@ class Tile : public Observer {
         void setResource(const std::string& resource);
         void setDieVal(int value);
         void notify(int rollSum) override;
+        Vertex** getAdjacentVertices();
+        bool isGeese();
 };
 
 #endif 
