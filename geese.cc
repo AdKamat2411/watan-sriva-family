@@ -8,11 +8,67 @@ void geese::moveGeese(int newTile, Tile** tileArr) {
 }
 
 void geese::stealResource(GameManager* g) {
+    std::vector<Player*> players = g->getPlayers();
+
+    for (Player* player : players) {
+        int totalResources = 0;
+        vector<string> resourceNames = {"CAFFEINE", "LAB", "LECTURE", "STUDY", "TUTORIAL"};
+        vector<int> resourceCounts;
+
+        // Calculate total resources and gather resource counts
+        for (const string& resource : resourceNames) {
+            int count = player->getResourceCount(resource);
+            resourceCounts.push_back(count);
+            totalResources += count;
+        }
+
+        // If the player has 10 or more resources, they lose half
+        if (totalResources >= 10) {
+            int resourcesToLose = totalResources / 2; // Rounded down
+            cout << "Student " << player->getColor() << " loses " 
+                << resourcesToLose << " resources to the geese. They lose:" << endl;
+
+            vector<int> lostResources(resourceCounts.size(), 0); // Tracks how many of each resource are lost
+            vector<int> cumulativeProbabilities;
+            int runningTotal = 0;
+
+            // Calculate cumulative probabilities
+            for (int count : resourceCounts) {
+                runningTotal += count;
+                cumulativeProbabilities.push_back(runningTotal);
+            }
+
+            // Randomly determine resources to lose
+            for (int i = 0; i < resourcesToLose; ++i) {
+                int randomValue = rand() % totalResources + 1; // Random between 1 and totalResources
+
+                // Find which resource corresponds to the random value
+                for (size_t j = 0; j < cumulativeProbabilities.size(); ++j) {
+                    if (randomValue <= cumulativeProbabilities[j]) {
+                        player->removeResources(resourceNames[j], 1); // Remove 1 of the resource
+                        lostResources[j]++; // Track the loss
+                        totalResources--; // Update remaining total
+                        resourceCounts[j]--; // Update specific resource count
+                        break;
+                    }
+                }
+            }
+
+            // Output grouped results
+            for (size_t i = 0; i < lostResources.size(); ++i) {
+                if (lostResources[i] > 0) {
+                    cout << lostResources[i] << " " << resourceNames[i] << endl;
+                }
+            }
+        }
+    }
+
+
     cout << "Choose where to place the GEESE." << endl;
     int geeseTile;
     cin >> geeseTile;
 
-    std::vector<Player*> players = g->getPlayers();
+    
 
     string currPlayer = g->getCurrentPlayer();
 
