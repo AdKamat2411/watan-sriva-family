@@ -130,6 +130,7 @@ void GameManager::playTurn(Player* player) {
         Vertex** allVertices = board->getVertices();
         player->printCompletions(allVertices, 54);
     } else if (command == "achieve") {
+        cout << ">";
         int goalNumber;
         cin >> goalNumber;
         Edge** allEdges = board->getEdges();
@@ -145,6 +146,7 @@ void GameManager::playTurn(Player* player) {
             }
         }
     } else if (command == "complete") {
+        cout << ">";
         int criterionNumber;
         cin >> criterionNumber;
         Vertex** allVertices = board->getVertices();
@@ -153,13 +155,14 @@ void GameManager::playTurn(Player* player) {
             cout << "Invalid criterion number. Please enter a value between 0 and 53." << endl;
         } else {
             Vertex* targetVertex = allVertices[criterionNumber];
-            if (player->buildCriterion(*targetVertex, nullptr, 0)) {
+            if (player->buildCriterion2(*targetVertex, board->getEdges(), 72)) {
                 cout << "Completed criterion " << criterionNumber << "." << endl;
             } else {
                 cout << "Failed to complete criterion " << criterionNumber << "." << endl;
             }
         }
     } else if (command == "improve") {
+        cout << ">";
         int criterionNumber;
         cin >> criterionNumber;
         Vertex** allVertices = board->getVertices();
@@ -175,6 +178,7 @@ void GameManager::playTurn(Player* player) {
             }
         }
     } else if (command == "trade") {
+      cout << ">";
       string targetColor, give, take;
       cin >> targetColor >> give >> take;
       Player* targetPlayer = findPlayerByColor(targetColor); 
