@@ -775,3 +775,10 @@ Tile* Board::getTile(int index) const {
     return tiles[index];
 }
 
+Vertex* Board::getVertex(int index) const {
+    for (int i = 0; i < 54; ++i) {
+        if (vertices[i]->getIdx() == index) {
+            return vertices[i];
+        }
+    }
+}

@@ -12,6 +12,14 @@ void Vertex::setOwner(string s) {
 
 int Vertex::getIdx() const { return Idx; }
 
+bool Vertex::isAvailable() {
+    if (owner == "") {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 string Vertex::getName() const { return owner; }
 
 ostream& operator<<(ostream& out, const Vertex &v) {

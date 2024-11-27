@@ -25,3 +25,10 @@ ostream& operator<<(ostream& out, const Edge &e) {
     }
     return out;
 }
+
+Vertex* Edge::getConnectedVertex(int index) const {
+    if (index < 0 || index >= 2) {
+        return nullptr; 
+    }
+    return arr[index];
+}

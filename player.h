@@ -25,12 +25,12 @@ private:
         {"STUDY", 0},
         {"TUTORIAL", 0}
     };
-
+    int idx;
     // Helper to find a resource index by name
     int findResource(const string& resourceName) const;
 
 public:
-    Player(const string& color);
+    Player(const string& color, int idx);
 
     // Accessors
     string getColor() const;

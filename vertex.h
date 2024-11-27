@@ -13,7 +13,7 @@ class Vertex {
     public:
         Vertex(int Idx, std::string owner = "", int houseLevel = 0);
         void upgradeCriterion();
-        bool isAvailabale();
+        bool isAvailable();
         string getName() const;
         int getIdx() const;
         void setOwner(string s);

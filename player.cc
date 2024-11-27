@@ -1,8 +1,8 @@
 #include "player.h"
 
 // Constructor
-Player::Player(const string& color)
-    : color(color), victoryPoints(0) {}
+Player::Player(const string& color, int idx)
+    : color(color), victoryPoints(0), idx(idx) {}
 
 
 int Player::findResource(const string& resourceName) const {
@@ -57,7 +57,7 @@ bool Player::buildCriterion(Vertex& targetVertex, Edge* connectedEdges[], int nu
     const int LECTURE_REQUIRED = 1;
     const int TUTORIAL_REQUIRED = 1;
 
-    if (!targetVertex.isAvailabale()) {
+    if (!targetVertex.isAvailable()) {
         cerr << "Vertex " << targetVertex.getIdx() << " is not available for building." << endl;
         return false;
     }
@@ -66,7 +66,7 @@ bool Player::buildCriterion(Vertex& targetVertex, Edge* connectedEdges[], int nu
         Edge* edge = connectedEdges[i];
         if (edge) {
             for (int j = 0; j < 2; ++j) { // Iterate through the two vertices connected by the edge
-                Vertex* connectedVertex = edge->arr[j];
+                Vertex* connectedVertex = edge->getConnectedVertex(j);
                 if (connectedVertex && connectedVertex != &targetVertex) { // Skip the target vertex
                     if (connectedVertex->getName() != "") { // Check if this vertex is already owned
                         cerr << "Cannot build on Vertex " << targetVertex.getIdx()

@@ -14,6 +14,7 @@ class Edge {
         void setOwner(string s);
         string getName() const;
         int getIdx() const;
+        Vertex* getConnectedVertex(int index) const; 
 };
 
 ostream& operator<<(ostream& out,const Edge &e);
