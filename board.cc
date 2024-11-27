@@ -66,7 +66,9 @@ Board::Board(Dice* dice, int currGeese) : dice(dice), currGeese(currGeese) {
             tempVertices[j] = vertices[vertArr[i][j]];
             tempEdges[j] = edges[edgeArr[i][j]];
         }
+
         tiles[i] = new Tile(tempVertices, tempEdges);
+        
     }
 }
 int boundary_edges[] = {0, 2, 4, 8, 11, 17, 25, 34, 42, 51, 59, 62, 66, 68, 70, 71, 69, 67, 63, 60, 54, 46, 37, 29, 20, 12, 9, 5, 3, 1};
@@ -232,7 +234,9 @@ void Board::printBoard() {
         if (i == 37) {
             printSpaces(37);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(18, tiles);
+            printSpaces(6);
             cout << '/';
             cout << '\n';
         }
@@ -262,7 +266,9 @@ void Board::printBoard() {
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(0, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
@@ -332,11 +338,15 @@ void Board::printBoard() {
         if (i == 33) {
             printSpaces(22);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(16, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(17, tiles);
+            printSpaces(6);
             cout << '/';
             cout << '\n';
         }
@@ -374,11 +384,15 @@ void Board::printBoard() {
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(1, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(2, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
@@ -472,15 +486,21 @@ void Board::printBoard() {
         if (i == 29) {
             printSpaces(7);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(13, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(14, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(15, tiles);
+            printSpaces(6);
             cout << '/';
             cout << '\n';
         }
@@ -532,15 +552,21 @@ void Board::printBoard() {
         if (i == 13) {
             printSpaces(7);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(3, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(4, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(5, tiles);
+            printSpaces(6);
             cout << '/';
             cout << '\n';
         }
@@ -634,11 +660,15 @@ void Board::printBoard() {
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(11, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(12, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
@@ -678,11 +708,15 @@ void Board::printBoard() {
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(6, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(7, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
@@ -776,15 +810,21 @@ void Board::printBoard() {
         if (i == 21) {
             printSpaces(7);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(8, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(9, tiles);
+            printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
-            printSpaces(16);
+            printSpaces(5);
+            printGeese(10, tiles);
+            printSpaces(6);
             cout << '/';
             cout << '\n';
         }
