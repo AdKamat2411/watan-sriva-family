@@ -69,13 +69,23 @@ void SaveManager::saveGame(const std::string& filename, GameManager* gameManager
     outFile << std::endl;
 
     // Save geese position
-    int geeseTile;
+    int geeseTile = -1;
     for (int i = 0; i < 19; i ++) {
         if (tiles[i]->isGeese()) {
             geeseTile = i;
             break;
         }
     }
+
+    if (geeseTile == -1) {
+        for (int i = 0; i < 19; i ++) {
+            if (tiles[i]->getResource() == "NETFLIX") {
+                geeseTile = i;
+                break;
+            }
+        }
+    }
+
     outFile << geeseTile << std::endl; // Assuming the board tracks which tile has the geese
 
     outFile.close();
