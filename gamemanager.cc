@@ -4,6 +4,7 @@
 #include "board.h"
 #include "savemanager.h"
 #include <sstream>
+#include "fileboardsetup.h"
 using namespace std;
 
 GameManager::GameManager() : board(nullptr), dice(nullptr), currentTurn(0) {}
@@ -18,10 +19,12 @@ GameManager::~GameManager() {
 
 void GameManager::initializeGame() {
   dice = new FairDice();
-  board = new Board(dice);
   Geese = new geese(-1);
-  RandomBoardSetup setup;
-  board->initializeBoard(setup);
+  if (!board) { 
+      board = new Board(dice);
+      RandomBoardSetup setup;
+      board->initializeBoard(setup); 
+  }
   board->printBoard();
   initializePlayers();
   initialPlacementPhase();
@@ -54,7 +57,7 @@ void GameManager::initialPlacementPhase() {
     bool validPlacement = false;
     while (!validPlacement) {
       cin >> vertexIndex;
-      if (std::cin.fail() || vertexIndex < 0 || vertexIndex >= 53) {
+      if (std::cin.fail() || vertexIndex < 0 || vertexIndex > 53) {
         cin.clear();
         cin.ignore();
         cout << "Invalid input. Please enter a valid vertex index: " << endl;
@@ -341,42 +344,9 @@ void GameManager::loadGame(std::ifstream& inFile) {
 
 
 void GameManager::loadBoard(std::ifstream& inFile) {
-    if (!inFile.is_open()) {
-        std::cerr << "Error: Unable to open board file." << std::endl;
-        return;
-    }
-
-    int resourceType, dieValue;
-
-    for (int i = 0; i < 19; ++i) {
-        inFile >> resourceType >> dieValue;
-
-        if (resourceType < 0 || resourceType > 5) {
-            std::cerr << "Error: Invalid resource type for tile " << i << std::endl;
-            return;
-        }
-
-        Tile* tile = board->getTile(i);
-
-        switch (resourceType) {
-            case 0: tile->setResource("CAFFEINE"); break;
-            case 1: tile->setResource("LAB"); break;
-            case 2: tile->setResource("LECTURE"); break;
-            case 3: tile->setResource("STUDY"); break;
-            case 4: tile->setResource("TUTORIAL"); break;
-            case 5: tile->setResource("NETFLIX"); break;
-        }
-
-        if (resourceType == 5) {
-            tile->setDieVal(-1);
-        } else {
-            if (dieValue < 2 || dieValue > 12) {
-                std::cerr << "Error: Invalid dice value for tile " << i << std::endl;
-                return;
-            }
-            tile->setDieVal(dieValue);
-        }
-    }
-
-    std::cout << "Board loaded successfully!" << std::endl;
+    dice = new FairDice();
+    board = new Board(dice);
+    FileBoardSetup fileSetup(inFile);
+    fileSetup.setup(*board);
+    std::cout << "Board loaded successfully from file." << std::endl;
 }
