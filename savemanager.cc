@@ -21,18 +21,29 @@ void SaveManager::saveGame(const std::string& filename, GameManager* gameManager
 
         // Save goals
         outFile << "g ";
-        std::vector<int> goals = player->getGoals(); // Assuming getGoals() returns a vector of goal IDs
-        for (int goal : goals) {
-            outFile << goal << " ";
+
+        Edge** edgeArr = gameManager->getBoard()->getEdges();
+        for (int i = 0; i < 72; i++) {
+            if (edgeArr[i]->getName() == player->getColor()) {
+                outFile << edgeArr[i]->getIdx() << " ";
+            }
         }
 
         // Save criteria
         outFile << "c ";
-        std::vector<std::pair<int, int>> criteria = player->getCriteria(); // Assuming getCriteria() returns pairs of {criterion number, completion number}
-        for (const auto& criterion : criteria) {
-            outFile << criterion.first << " " << criterion.second << " ";
+        Vertex** vertArr = gameManager->getBoard()->getVertices();
+        for (int i = 0; i < 54; i++) {
+            if (vertArr[i]->getName() == player->getColor()) {
+                outFile << vertArr[i]->getIdx() << " ";
+                if (vertArr[i]->getHouseLevel() == "Assignment") {
+                    outFile << "1 ";
+                } else if (vertArr[i]->getHouseLevel() == "Midterm") {
+                    outFile << "2 ";
+                } else if (vertArr[i]->getHouseLevel() == "Exam") {
+                    outFile << "3 ";
+                }
+            }
         }
-
         outFile << std::endl;
     }
 
