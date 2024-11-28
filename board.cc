@@ -862,7 +862,7 @@ void Board::notify(int rollSum, std::vector<Player*>& players, int currTurn) {
 
 void Board::notifyTiles(int rollSum, std::vector<Player*>& players, int currTurn) {
     for (int i = 0; i < 19; i++) {
-        if (tiles[i]->getDieVal() == rollSum) {
+        if (tiles[i]->getDieVal() == rollSum && !(tiles[i]->isGeese())) {
             tiles[i]->notify(rollSum, players, currTurn);
             players[currTurn]->addResources(tiles[i]->getResource(), 1);
         }
@@ -909,3 +909,19 @@ Edge** Board::getEdges() {
 }
 
 Tile** Board::getTiles() { return tiles; }
+
+void Board::loadState(const std::vector<std::pair<std::string, int>>& tilesData) {
+    for (int i = 0; i < 19; ++i) {
+        if (tiles[i] == nullptr) {
+            Vertex* tempVertices[6]; 
+            Edge* tempEdges[6]; 
+            for (int j = 0; j < 6; ++j) {
+                tempVertices[j] = vertices[vertArr[i][j]];
+                tempEdges[j] = edges[edgeArr[i][j]];
+            }    
+            tiles[i] = new Tile(tempVertices, tempEdges);
+        }
+        tiles[i]->setResource(tilesData[i].first);
+        tiles[i]->setDieVal(tilesData[i].second);
+    }
+}

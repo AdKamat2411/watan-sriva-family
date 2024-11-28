@@ -252,6 +252,8 @@ bool Player::buildCriterion2(Vertex &targetVertex, Edge *connectedEdges[], int n
     targetVertex.setHouseLevel("Assignment"); // Set house level to Assignment
     addVictoryPoints(1);                      // Add victory point
 
+    criteria.push_back(std::make_pair(targetVertex.getIdx(), 1));
+
     cout << color << " player successfully built a criterion (Assignment) on Vertex "
          << targetVertex.getIdx() << "." << endl;
 
@@ -316,6 +318,23 @@ bool Player::upgradeCriterion(Vertex &targetVertex)
         cerr << "Criterion is already at the maximum level (Exam)." << endl;
         return false;
     }
+
+    for (auto &criterion : criteria)
+    {
+        if (criterion.first == targetVertex.getIdx())
+        {
+            if (currentLevel == "Assignment")
+            {
+                criterion.second = 2; // Upgrade to Midterm
+            }
+            else if (currentLevel == "Midterm")
+            {
+                criterion.second = 3; // Upgrade to Exam
+            }
+            break;
+        }
+    }
+
     return true;
 }
 
@@ -390,6 +409,8 @@ bool Player::claimEdge(Edge &targetEdge, Edge *allEdges[], int numEdges)
     targetEdge.setOwner(color);
     cout << color << " player successfully claimed Edge " << targetEdge.getIdx() << "." << endl;
 
+    goals.push_back(targetEdge.getIdx());
+
     return true;
 }
 
@@ -432,4 +453,49 @@ void Player::printCompletions(Vertex *allVertices[], int numVertices) const
         }
     }
     cout << assignments << " 1 " << midterms << " 2 " << exams << " 3" << endl;
+}
+
+std::vector<int> Player::getGoals() { return goals; }
+
+std::vector<std::pair<int, int>> Player::getCriteria() { return criteria; }
+
+void Player::loadState(const int* resourceCounts, const std::string& color, int victoryPoints,
+                       const std::vector<int>& goals, const std::vector<std::pair<int, int>>& criteria) {
+    this->color = color;
+    this->victoryPoints = victoryPoints;
+
+    for (int i = 0; i < NUM_RESOURCES; ++i) {
+        resources[i].count = resourceCounts[i];
+    }
+
+    this->goals.clear();
+    this->goals.insert(this->goals.end(), goals.begin(), goals.end());
+
+    this->criteria.clear();
+    for (const auto& criterion : criteria) {
+        this->criteria.push_back(criterion);
+    }
+
+    cout << "Player " << color << " loaded with " << victoryPoints << " victory points, "
+         << "resources: CAFFEINE = " << resources[0].count
+         << ", LAB = " << resources[1].count
+         << ", LECTURE = " << resources[2].count
+         << ", STUDY = " << resources[3].count
+         << ", TUTORIAL = " << resources[4].count << endl;
+
+    cout << "Goals achieved: ";
+    for (int goal : this->goals) {
+        cout << goal << " ";
+    }
+    cout << endl;
+
+    cout << "Criteria achieved: ";
+    for (const auto& [criterionNumber, completionLevel] : this->criteria) {
+        cout << "(" << criterionNumber << ", " << completionLevel << ") ";
+    }
+    cout << endl;
+}
+
+void Player::setVP(int vp) {
+    victoryPoints = vp;
 }

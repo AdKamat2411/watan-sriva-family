@@ -22,12 +22,22 @@ void Tile::distributeResources(std::vector<Player*>& players) {
         if (vertex && !vertex->getName().empty()) { 
             for (auto& player : players) {
                 if (player->getColor() == vertex->getName()) {
-                    player->addResources(resourceType, 1);
+                    int resourceAmount = 0;
+
+                    if (vertex->getHouseLevel() == "Assignment") {
+                        resourceAmount = 1;
+                    } else if (vertex->getHouseLevel() == "Midterm") {
+                        resourceAmount = 2;
+                    } else if (vertex->getHouseLevel() == "Exam") {
+                        resourceAmount = 3;
+                    }
+                    player->addResources(resourceType, resourceAmount);
                 }
             }
         }
     }
 }
+
 
 void Tile::setResource(const std::string& resource) {
     resourceType = resource;

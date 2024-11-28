@@ -2,6 +2,8 @@
 #include "randomboardsetup.h"
 #include <iostream>
 #include "board.h"
+#include "savemanager.h"
+#include <sstream>
 using namespace std;
 
 GameManager::GameManager() : board(nullptr), dice(nullptr), currentTurn(0) {}
@@ -17,6 +19,7 @@ GameManager::~GameManager() {
 void GameManager::initializeGame() {
   dice = new FairDice();
   board = new Board(dice);
+  Geese = new geese(-1);
   RandomBoardSetup setup;
   board->initializeBoard(setup);
   board->printBoard();
@@ -103,7 +106,11 @@ void GameManager::playTurn(Player* player) {
     } else if (dcommand == "roll") {
       dice->roll(players);
       cout << "Dice rolled: " << dice->getSumOfRoll() << endl;
-      board->notifyTiles(dice->getSumOfRoll(), players, currentTurn);
+      if (dice->getSumOfRoll() == 7) {
+        Geese->stealResource(this);
+      } else {
+        board->notifyTiles(dice->getSumOfRoll(), players, currentTurn);
+      }
       diceRolled = true;
     } else {
         cout << "Invalid command. Please enter 'load', 'fair', or 'roll'." << endl;
@@ -202,11 +209,12 @@ void GameManager::playTurn(Player* player) {
       } else {
           cout << "Player " << targetColor << " not found." << endl;
       }
-    // } else if (command == "save") {
-    //     string filename;
-    //     cin >> filename;
-    //     saveGame(filename); // Assuming saveGame is implemented
-    //     cout << "Game saved to " << filename << "." << endl;
+    } else if (command == "save") {
+        string filename;
+        cin >> filename;
+        SaveManager save;
+        save.saveGame(filename, this); 
+        cout << "Game saved to " << filename << "." << endl;
     } else if (command == "next") {
         turnEnded = true;
         cout << "Turn ended for " << player->getColor() << "." << endl;
@@ -242,3 +250,133 @@ std::vector<Player*> GameManager::getPlayers() { return players; }
 
 string GameManager::getCurrentPlayer() { return players[currentTurn]->getColor(); }
 
+void GameManager::loadGame(std::ifstream& inFile) {
+    inFile >> currentTurn;
+    std::vector<std::string> colors = {"Blue", "Red", "Orange", "Yellow"};
+    players.clear();
+    for (int i = 0; i < 4; ++i) {
+        players.push_back(new Player(colors[i], i));
+    }
+    dice = new FairDice();
+    board = new Board(dice);
+    inFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    for (auto& player : players) {
+      int resourceCounts[5];
+      std::string color = player->getColor();
+      int victoryPoints;
+      std::vector<int> goals;
+      std::vector<std::pair<int, int>> criteria; 
+      std::string goalsLabel;
+      std::string criteriaLabel;
+      std::string line;
+      std::getline(inFile, line);
+      std::istringstream lineStream(line);
+      for (int i = 0; i < 5; ++i) {
+        lineStream >> resourceCounts[i]; 
+      }
+      char g, c;
+      lineStream >> g;
+      if (g == 'g') {
+          int value;
+          while (lineStream >> value) {
+            goals.emplace_back(value);
+            Edge** arr = board->getEdges();
+            arr[value]->setOwner(player->getColor());
+          }
+          lineStream.clear(); 
+          lineStream >> c;   
+      }
+      char token;
+      int vps = 0;
+      if (c == 'c') {
+          int criterionNumber, completionLevel;
+          while (lineStream >> criterionNumber >> completionLevel) {
+              criteria.emplace_back(criterionNumber, completionLevel);
+              Vertex** arr = board->getVertices();
+              arr[criterionNumber]->setOwner(player->getColor());
+              if (completionLevel == 1) {
+                  vps += 1;
+                  arr[criterionNumber]->setHouseLevel("Assignment");
+              } else if (completionLevel == 2) {
+                  vps += 2;
+                  arr[criterionNumber]->setHouseLevel("Midterm");
+              } else if (completionLevel == 3) {
+                  vps += 3;
+                  arr[criterionNumber]->setHouseLevel("Exam");
+              }
+          }
+      }
+      victoryPoints = vps;
+      player->loadState(resourceCounts, color, victoryPoints, goals, criteria);
+    }
+    std::vector<std::pair<std::string, int>> tilesData;
+    std::string line;
+    std::getline(inFile, line);
+    std::istringstream lineStream(line);
+    for (int i = 0; i < 19; ++i) {
+        int resourceId, dieValue;
+        lineStream >> resourceId >> dieValue;
+        std::string resourceType;
+        switch (resourceId) {
+            case 0: resourceType = "CAFFEINE"; break;
+            case 1: resourceType = "LAB"; break;
+            case 2: resourceType = "LECTURE"; break;
+            case 3: resourceType = "STUDY"; break;
+            case 4: resourceType = "TUTORIAL"; break;
+            case 5: resourceType = "NETFLIX"; break;
+            default:
+                std::cerr << "Error: Invalid resource ID " << resourceId << std::endl;
+                return;
+        }
+
+        tilesData.emplace_back(resourceType, dieValue);
+    }
+    board->loadState(tilesData);
+    int geeseTile;
+    inFile >> geeseTile;
+    Geese = new geese();
+    Geese->moveGeese(geeseTile, board->getTiles());
+    cout << "Game loaded successfully!" << endl;
+}
+
+
+void GameManager::loadBoard(std::ifstream& inFile) {
+    if (!inFile.is_open()) {
+        std::cerr << "Error: Unable to open board file." << std::endl;
+        return;
+    }
+
+    int resourceType, dieValue;
+
+    for (int i = 0; i < 19; ++i) {
+        inFile >> resourceType >> dieValue;
+
+        if (resourceType < 0 || resourceType > 5) {
+            std::cerr << "Error: Invalid resource type for tile " << i << std::endl;
+            return;
+        }
+
+        Tile* tile = board->getTile(i);
+
+        switch (resourceType) {
+            case 0: tile->setResource("CAFFEINE"); break;
+            case 1: tile->setResource("LAB"); break;
+            case 2: tile->setResource("LECTURE"); break;
+            case 3: tile->setResource("STUDY"); break;
+            case 4: tile->setResource("TUTORIAL"); break;
+            case 5: tile->setResource("NETFLIX"); break;
+        }
+
+        if (resourceType == 5) {
+            tile->setDieVal(-1);
+        } else {
+            if (dieValue < 2 || dieValue > 12) {
+                std::cerr << "Error: Invalid dice value for tile " << i << std::endl;
+                return;
+            }
+            tile->setDieVal(dieValue);
+        }
+    }
+
+    std::cout << "Board loaded successfully!" << std::endl;
+}

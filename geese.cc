@@ -1,4 +1,5 @@
 #include "geese.h"
+#include "gamemanager.h"
 
 geese::geese(int currTile): currTile(currTile) {}
 
@@ -97,7 +98,7 @@ void geese::stealResource(GameManager* g) {
     }
 
     for (const string& p : playersOnTile) {
-        cout << "Student" <<  currPlayer << "can choose to steal from" << p << "." << endl;
+        cout << "Student " <<  currPlayer << " can choose to steal from " << p << "." << endl;
     }
 
     cout << "Choose a student to steal from." << endl;

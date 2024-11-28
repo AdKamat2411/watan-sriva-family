@@ -5,11 +5,14 @@
 #include "dice.h"
 #include "player.h"
 #include <vector>
+#include "geese.h"
+#include <fstream>
 
 class GameManager {
   private:
     Board* board; 
     Dice* dice;
+    geese* Geese;
     std::vector<Player*> players;
     int currentTurn;
 
@@ -28,6 +31,8 @@ class GameManager {
     std::vector<Player*> getPlayers();
     string getCurrentPlayer();
     int getcurrTurn();
+    void loadGame(std::ifstream& inFile);
+    void loadBoard(std::ifstream& inFile);
 };
 
 #endif

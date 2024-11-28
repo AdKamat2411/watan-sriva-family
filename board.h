@@ -33,6 +33,7 @@ class Board: public Subject, public Observer {
         Edge** getEdges();
         Tile** getTiles();
         void notify(int rollSum, std::vector<Player*>& players, int currTurn) override;
+        void loadState(const std::vector<std::pair<std::string, int>>& tilesData);
 };
 
 #endif
