@@ -172,6 +172,8 @@ bool Player::buildCriterion(Vertex &targetVertex, Edge *connectedEdges[], int nu
     targetVertex.setHouseLevel("Assignment"); // Set house level to Assignment
     addVictoryPoints(1);                      // Add victory point
 
+    criteria.push_back(std::make_pair(targetVertex.getIdx(), 1));
+
     cout << color << " player successfully built a criterion (Assignment) on Vertex "
          << targetVertex.getIdx() << "." << endl;
 
@@ -236,6 +238,23 @@ bool Player::upgradeCriterion(Vertex &targetVertex)
         cerr << "Criterion is already at the maximum level (Exam)." << endl;
         return false;
     }
+
+    for (auto &criterion : criteria)
+    {
+        if (criterion.first == targetVertex.getIdx())
+        {
+            if (currentLevel == "Assignment")
+            {
+                criterion.second = 2; // Upgrade to Midterm
+            }
+            else if (currentLevel == "Midterm")
+            {
+                criterion.second = 3; // Upgrade to Exam
+            }
+            break;
+        }
+    }
+
     return true;
 }
 
@@ -310,6 +329,8 @@ bool Player::claimEdge(Edge &targetEdge, Edge *allEdges[], int numEdges)
     targetEdge.setOwner(color);
     cout << color << " player successfully claimed Edge " << targetEdge.getIdx() << "." << endl;
 
+    goals.push_back(targetEdge.getIdx());
+
     return true;
 }
 
@@ -353,3 +374,8 @@ void Player::printCompletions(Vertex *allVertices[], int numVertices) const
     }
     cout << assignments << " 1 " << midterms << " 2 " << exams << " 3" << endl;
 }
+
+std::vector<int> Player::getGoals() { return goals; }
+
+std::vector<std::pair<int, int>> Player::getCriteria() { return criteria; }
+

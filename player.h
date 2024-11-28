@@ -25,6 +25,8 @@ class Player {
             {"STUDY", 0},
             {"TUTORIAL", 2}
         };
+        std::vector<int> goals;
+        std::vector<std::pair<int, int>> criteria;
         int findResource(const string& resourceName) const;
 
     public:
@@ -41,6 +43,8 @@ class Player {
         void printStatus() const;
         void printCompletions(Vertex* allVertices[], int numVertices) const;
         bool claimEdge(Edge& targetEdge, Edge* allEdges[], int numEdges);
+        std::vector<int> getGoals();
+        std::vector<std::pair<int, int>> getCriteria();
 };
 
 #endif // PLAYER_H
