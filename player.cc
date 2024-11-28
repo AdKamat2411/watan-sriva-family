@@ -172,6 +172,86 @@ bool Player::buildCriterion(Vertex &targetVertex, Edge *connectedEdges[], int nu
     targetVertex.setHouseLevel("Assignment"); // Set house level to Assignment
     addVictoryPoints(1);                      // Add victory point
 
+    cout << color << " player successfully built a criterion (Assignment) on Vertex "
+         << targetVertex.getIdx() << "." << endl;
+
+    return true;
+}
+
+bool Player::buildCriterion2(Vertex &targetVertex, Edge *connectedEdges[], int numEdges) {
+    const int CAFFEINE_REQUIRED = 1;
+    const int LAB_REQUIRED = 1;
+    const int LECTURE_REQUIRED = 1;
+    const int TUTORIAL_REQUIRED = 1;
+
+    // Check if the target vertex is available
+    if (!targetVertex.isAvailable()) {
+        cerr << "Vertex " << targetVertex.getIdx() << " is not available for building." << endl;
+        return false;
+    }
+
+    // Check if the player owns at least one adjacent edge connected to the target vertex
+    bool ownsAdjacentEdge = false;
+    for (int i = 0; i < numEdges; ++i) {
+        Edge *edge = connectedEdges[i];
+        Vertex** arr = edge->getVertices();
+        if (edge && (arr[0] == &targetVertex || arr[1] == &targetVertex)) {
+            if (edge->getName() == color) { // Check if the edge is owned by the current player
+                ownsAdjacentEdge = true;
+                break;
+            }
+        }
+    }
+
+    if (!ownsAdjacentEdge) {
+        cerr << "Cannot build on Vertex " << targetVertex.getIdx()
+             << ". You must own an adjacent edge connected to it." << endl;
+        return false;
+    }
+
+    // Check if all adjacent vertices are unowned
+    for (int i = 0; i < numEdges; ++i) {
+        Edge *edge = connectedEdges[i];
+        if (edge) {
+            Vertex **vertArr = edge->getVertices();
+            Vertex *vertex1 = vertArr[0];
+            Vertex *vertex2 = vertArr[1];
+
+            if (vertex1 == &targetVertex && vertex2->getName() != "") { // Check adjacent vertex
+                cerr << "Cannot build on Vertex " << targetVertex.getIdx()
+                     << ". Adjacent vertex (" << vertex2->getIdx() << ") is already owned." << endl;
+                return false;
+            }
+            if (vertex2 == &targetVertex && vertex1->getName() != "") { // Check adjacent vertex
+                cerr << "Cannot build on Vertex " << targetVertex.getIdx()
+                     << ". Adjacent vertex (" << vertex1->getIdx() << ") is already owned." << endl;
+                return false;
+            }
+        }
+    }
+
+    // Check resource availability
+    if (getResourceCount("CAFFEINE") < CAFFEINE_REQUIRED ||
+        getResourceCount("LAB") < LAB_REQUIRED ||
+        getResourceCount("LECTURE") < LECTURE_REQUIRED ||
+        getResourceCount("TUTORIAL") < TUTORIAL_REQUIRED) {
+        cerr << "Not enough resources to build a criterion. Requires "
+             << CAFFEINE_REQUIRED << " CAFFEINE, " << LAB_REQUIRED << " LAB, "
+             << LECTURE_REQUIRED << " LECTURE, and " << TUTORIAL_REQUIRED << " TUTORIAL." << endl;
+        return false;
+    }
+
+    // Deduct resources
+    removeResources("CAFFEINE", CAFFEINE_REQUIRED);
+    removeResources("LAB", LAB_REQUIRED);
+    removeResources("LECTURE", LECTURE_REQUIRED);
+    removeResources("TUTORIAL", TUTORIAL_REQUIRED);
+
+    // Build the criterion: Set ownership and house level
+    targetVertex.setOwner(color);             // Assign ownership to the player
+    targetVertex.setHouseLevel("Assignment"); // Set house level to Assignment
+    addVictoryPoints(1);                      // Add victory point
+
     criteria.push_back(std::make_pair(targetVertex.getIdx(), 1));
 
     cout << color << " player successfully built a criterion (Assignment) on Vertex "

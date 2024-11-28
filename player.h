@@ -43,6 +43,7 @@ class Player {
         void printStatus() const;
         void printCompletions(Vertex* allVertices[], int numVertices) const;
         bool claimEdge(Edge& targetEdge, Edge* allEdges[], int numEdges);
+        bool buildCriterion2(Vertex &targetVertex, Edge *connectedEdges[], int numEdges);
         std::vector<int> getGoals();
         std::vector<std::pair<int, int>> getCriteria();
 };
