@@ -475,25 +475,6 @@ void Player::loadState(const int* resourceCounts, const std::string& color, int 
     for (const auto& criterion : criteria) {
         this->criteria.push_back(criterion);
     }
-
-    cout << "Player " << color << " loaded with " << victoryPoints << " victory points, "
-         << "resources: CAFFEINE = " << resources[0].count
-         << ", LAB = " << resources[1].count
-         << ", LECTURE = " << resources[2].count
-         << ", STUDY = " << resources[3].count
-         << ", TUTORIAL = " << resources[4].count << endl;
-
-    cout << "Goals achieved: ";
-    for (int goal : this->goals) {
-        cout << goal << " ";
-    }
-    cout << endl;
-
-    cout << "Criteria achieved: ";
-    for (const auto& [criterionNumber, completionLevel] : this->criteria) {
-        cout << "(" << criterionNumber << ", " << completionLevel << ") ";
-    }
-    cout << endl;
 }
 
 void Player::setVP(int vp) {
