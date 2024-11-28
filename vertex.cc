@@ -51,4 +51,3 @@ ostream& operator<<(ostream& out, const Vertex &v) {
     }
     return out;
 }
-
