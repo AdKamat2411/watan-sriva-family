@@ -129,15 +129,17 @@ void GameManager::playTurn(Player* player) {
         board->printBoard();
     } else if (command == "status") {
         for (const auto& p : players) {
-            cout << p->getColor() << ": "
-                << p->getVictoryPoints() << " VP, Resources: ";
-            for (const string& resource : {"CAFFEINE", "LAB", "LECTURE", "STUDY", "TUTORIAL"}) {
-                cout << resource << "=" << p->getResourceCount(resource) << " ";
-            }
-            cout << endl;
+            cout << p->getColor() << " has "
+                << p->getVictoryPoints() << " victory points, " 
+                << p->getResourceCount("CAFFEINE") << " caffeines, "
+                << p->getResourceCount("LAB") << " labs, "
+                << p->getResourceCount("LECTURE") << " lectures, "
+                << p->getResourceCount("TUTORIAL") << " tutorials, and "
+                << p->getResourceCount("STUDY") << " studies." << endl;
         }
     } else if (command == "criteria") {
         Vertex** allVertices = board->getVertices();
+        cout << player->getColor() << " has completed: " << endl;
         player->printCompletions(allVertices, 54);
     } else if (command == "achieve") {
         cout << ">";
@@ -195,12 +197,12 @@ void GameManager::playTurn(Player* player) {
       if (targetPlayer) {
         cout << player->getColor() << " offers " << targetColor << " one " << give 
             << " for one " << take << "." << endl;
-        cout << "Does " << targetColor << " accept this offer? (Y/N)" << endl;
+        cout << "Does " << targetColor << " accept this offer? (yes/no)" << endl;
 
-        char response;
+        string response;
         cin >> response;
 
-        if (response == 'Y' || response == 'y') { 
+        if (response == "yes") { 
             if (Player::trade(*player, *targetPlayer, give, take)) {
                 cout << "Trade with " << targetColor << " successful." << endl;
             } else {

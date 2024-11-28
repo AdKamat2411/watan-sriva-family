@@ -107,7 +107,12 @@ void geese::stealResource(GameManager* g) {
 
     while (true) {
         cin >> targetPlayer;
-
+        if (cin.fail()) {
+            cin.clear(); 
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+            cout << "Invalid input. Please enter a valid player." << endl;
+            continue;
+        }
         if (find(playersOnTile.begin(), playersOnTile.end(), targetPlayer) != playersOnTile.end()) {
             break;
         }

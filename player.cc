@@ -353,7 +353,7 @@ bool Player::claimEdge(Edge &targetEdge, Edge *allEdges[], int numEdges)
     // Check resource availability
     if (getResourceCount("TUTORIAL") < TUTORIAL_COST || getResourceCount("STUDY") < STUDY_COST)
     {
-        cerr << "Not enough resources to claim the edge. Requires 1 TUTORIAL and 1 STUDY." << endl;
+        cerr << "You do not have enough resources." << endl;
         return false;
     }
 
@@ -452,7 +452,7 @@ void Player::printCompletions(Vertex *allVertices[], int numVertices) const
             }
         }
     }
-    cout << assignments << " 1 " << midterms << " 2 " << exams << " 3" << endl;
+    cout << assignments << " 1 " << endl << midterms << " 2 " << endl << exams << " 3" << endl;
 }
 
 std::vector<int> Player::getGoals() { return goals; }
