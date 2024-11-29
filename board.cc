@@ -167,6 +167,16 @@ void printGeese(int tileNum, Tile** tiles) {
     }
 }
 
+ostream& printDie(ostream& out, Tile* tile) {
+    if (tile->getResource() == "NETFLIX") {
+        out << "  ";
+    } else {
+        out << setw(2) << right << tile->getDieVal();
+    }
+    return out;
+}
+
+
 void Board::printBoard() {
     for (int i = 0; i < 41; i++) {
         if (i == 0) {
@@ -245,7 +255,7 @@ void Board::printBoard() {
             printSpaces(24);
             printSide(*vertices[2], *edges[3], *vertices[3]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[0]->getDieVal();
+            printDie(cout, tiles[0]);
             printSpaces(7);
             printSide(*vertices[4], *edges[4], *vertices[5]);
             cout << '\n';
@@ -255,7 +265,7 @@ void Board::printBoard() {
             printSpaces(24);
             printSide(*vertices[48], *edges[67], *vertices[49]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[18]->getDieVal();
+            printDie(cout, tiles[18]);
             printSpaces(7);
             printSide(*vertices[50], *edges[68], *vertices[51]);
             cout << '\n';
@@ -355,11 +365,11 @@ void Board::printBoard() {
             printSpaces(9);
             printSide(*vertices[6], *edges[9], *vertices[7]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[1]->getDieVal();
+            printDie(cout, tiles[1]);
             printSpaces(7);
             printSide(*vertices[8], *edges[10], *vertices[9]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[2]->getDieVal();
+            printDie(cout, tiles[2]);
             printSpaces(7);
             printSide(*vertices[10], *edges[11], *vertices[11]);
             cout << '\n';
@@ -369,11 +379,11 @@ void Board::printBoard() {
             printSpaces(9);
             printSide(*vertices[42], *edges[60], *vertices[43]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[16]->getDieVal();
+            printDie(cout, tiles[16]);
             printSpaces(7);
             printSide(*vertices[44], *edges[61], *vertices[45]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[17]->getDieVal();
+            printDie(cout, tiles[17]);
             printSpaces(7);
             printSide(*vertices[46], *edges[62], *vertices[47]);
             cout << '\n';
@@ -511,15 +521,15 @@ void Board::printBoard() {
             cout << *vertices[12];
             cout << '|';
             printSpaces(7);
-            cout << setw(2) << right << tiles[3]->getDieVal();
+            printDie(cout, tiles[3]);
             printSpaces(7);
             printSide(*vertices[13], *edges[18], *vertices[14]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[4]->getDieVal();
+            printDie(cout, tiles[4]);
             printSpaces(7);
             printSide(*vertices[15], *edges[19], *vertices[16]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[5]->getDieVal();
+            printDie(cout, tiles[5]);
             printSpaces(7);
             cout << '|';
             cout << *vertices[17];
@@ -533,15 +543,15 @@ void Board::printBoard() {
             cout << *vertices[36];
             cout << '|';
             printSpaces(7);
-            cout << setw(2) << right << tiles[13]->getDieVal();
+            printDie(cout, tiles[13]);
             printSpaces(7);
             printSide(*vertices[37], *edges[52], *vertices[38]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[14]->getDieVal();
+            printDie(cout, tiles[14]);
             printSpaces(7);
             printSide(*vertices[39], *edges[53], *vertices[40]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[15]->getDieVal();
+            printDie(cout, tiles[15]);
             printSpaces(7);
             cout << '|';
             cout << *vertices[41];
@@ -679,11 +689,11 @@ void Board::printBoard() {
             printSpaces(9);
             printSide(*vertices[18], *edges[26], *vertices[19]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[6]->getDieVal();
+            printDie(cout, tiles[6]);
             printSpaces(7);
             printSide(*vertices[20], *edges[27], *vertices[21]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[7]->getDieVal();
+            printDie(cout, tiles[7]);
             printSpaces(7);
             printSide(*vertices[22], *edges[28], *vertices[23]);
             cout << '\n';
@@ -693,11 +703,11 @@ void Board::printBoard() {
             printSpaces(9);
             printSide(*vertices[30], *edges[43], *vertices[31]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[11]->getDieVal();
+            printDie(cout, tiles[11]);
             printSpaces(7);
             printSide(*vertices[32], *edges[44], *vertices[33]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[12]->getDieVal();
+            printDie(cout, tiles[12]);
             printSpaces(7);
             printSide(*vertices[34], *edges[45], *vertices[35]);
             cout << '\n';
@@ -835,15 +845,15 @@ void Board::printBoard() {
             cout << *vertices[24];
             cout << '|';
             printSpaces(7);
-            cout << setw(2) << right << tiles[8]->getDieVal();
+            printDie(cout, tiles[8]);
             printSpaces(7);
             printSide(*vertices[25], *edges[35], *vertices[26]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[9]->getDieVal();
+            printDie(cout, tiles[9]);
             printSpaces(7);
             printSide(*vertices[27], *edges[36], *vertices[28]);
             printSpaces(7);
-            cout << setw(2) << right << tiles[10]->getDieVal();
+            printDie(cout, tiles[10]);
             printSpaces(7);
             cout << '|';
             cout << *vertices[29];
