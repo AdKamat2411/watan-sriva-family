@@ -6,24 +6,29 @@
 #include <string>
 #include "observer.h"
 #include "player.h"
+#include <memory>
+#include <array>
 
 class Tile : public Observer {
-    string resourceType;
+    std::string resourceType;
     int dieValue;
     bool geeseFlag;
-    Vertex* adjacentVert[6];
-    Edge* adjacentEdge[6];
-    public:
-        Tile(Vertex** adjacentVert, Edge** adjacentEdge, string resourceType = "", int dieValue = -1, bool geeseFlag = false);
-        void distributeResources(std::vector<Player*>& players);
-        void updateGeese();
-        int getDieVal();
-        string getResource();
-        void setResource(const std::string& resource);
-        void setDieVal(int value);
-        void notify(int rollSum, std::vector<Player*>& players, int currTurn) override;
-        Vertex** getAdjacentVertices();
-        bool isGeese();
+    std::array<std::shared_ptr<Vertex>, 6> adjacentVert; // Use shared_ptr for Vertex
+    std::array<std::shared_ptr<Edge>, 6> adjacentEdge;   // Use shared_ptr for Edge
+
+public:
+    Tile(const std::array<std::shared_ptr<Vertex>, 6>& adjacentVert,
+         const std::array<std::shared_ptr<Edge>, 6>& adjacentEdge,
+         const std::string& resourceType = "", int dieValue = -1, bool geeseFlag = false);
+    void distributeResources(std::vector<Player*>& players);
+    void updateGeese();
+    int getDieVal() const;
+    std::string getResource() const;
+    void setResource(const std::string& resource);
+    void setDieVal(int value);
+    void notify(int rollSum, std::vector<Player*>& players, int currTurn) override;
+    const std::array<std::shared_ptr<Vertex>, 6>& getAdjacentVertices() const;
+    bool isGeese() const;
 };
 
-#endif 
+#endif

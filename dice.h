@@ -2,6 +2,7 @@
 #define DICE_H
 
 #include <iostream>
+#include <memory> // Include for std::unique_ptr
 #include "subject.h"
 #include <cstdlib>
 #include <ctime>
@@ -54,11 +55,11 @@ enum class DiceType { Fair, Loaded };
 
 class DiceFactory {
   public:
-    static Dice* createDice(DiceType type) {
+    static std::unique_ptr<Dice> createDice(DiceType type) {
       if (type == DiceType::Fair) {
-        return new FairDice();
+        return std::make_unique<FairDice>();
       } else if (type == DiceType::Loaded) {
-        return new LoadedDice();
+        return std::make_unique<LoadedDice>();
       }
       return nullptr;
     }

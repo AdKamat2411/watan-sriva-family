@@ -4,6 +4,7 @@
 #include <iomanip>
 #include "boardsetup.h"
 #include <vector>
+#include <array>
 
 const int Board::vertArr[19][6] = {
     {0, 1, 4, 9, 8, 3},
@@ -49,28 +50,41 @@ const int Board::edgeArr[19][6] = {
     {61, 65, 70, 71, 69, 64}
 };
 
-Board::Board(Dice* dice, int currGeese) : dice(dice), currGeese(currGeese) {
-    dice->attach(this);
+#include "board.h"
+#include <memory>
+
+Board::Board(std::shared_ptr<Dice> dice, int currGeese)
+    : dice(std::move(dice)), currGeese(currGeese) {
+    this->dice->attach(shared_from_this());
+
+    // Initialize vertices
     for (int i = 0; i < 54; i++) {
-        vertices[i] = new Vertex(i);
+        vertices[i] = std::make_shared<Vertex>(i);
     }
+
+    // Initialize edges
     for (int i = 0; i < 72; i++) {
-        edges[i] = new Edge(i);
-        std::vector<int> connectedVert = getVerticesConnectedToEdge(i);
-        edges[i]->setVertices(vertices[connectedVert[0]], vertices[connectedVert[1]]);
+        edges[i] = std::make_shared<Edge>(i);
+        auto connectedVert = getVerticesConnectedToEdge(i);
+        edges[i]->setVertices(vertices[connectedVert[0]].get(), vertices[connectedVert[1]].get());
     }
+
+    // Initialize tiles
     for (int i = 0; i < 19; i++) {
-        Vertex* tempVertices[6];
-        Edge* tempEdges[6];
+        std::array<std::shared_ptr<Vertex>, 6> tempVertices;
+        std::array<std::shared_ptr<Edge>, 6> tempEdges;
+
         for (int j = 0; j < 6; j++) {
             tempVertices[j] = vertices[vertArr[i][j]];
             tempEdges[j] = edges[edgeArr[i][j]];
         }
 
-        tiles[i] = new Tile(tempVertices, tempEdges);
-        
+        tiles[i] = std::make_shared<Tile>(tempVertices, tempEdges);
     }
 }
+
+
+
 int boundary_edges[] = {0, 2, 4, 8, 11, 17, 25, 34, 42, 51, 59, 62, 66, 68, 70, 71, 69, 67, 63, 60, 54, 46, 37, 29, 20, 12, 9, 5, 3, 1};
 int vertices_edges[][2] = {
     {0, 1},
@@ -106,7 +120,7 @@ int vertices_edges[][2] = {
 };
 
 std::vector<int> Board::getVerticesConnectedToEdge(int edge) {
-    std::vector<int> result; // Dynamic vector to store connected vertices
+    std::vector<int> result; 
     for (int k = 0; k < 30; ++k) {
         if (edge == boundary_edges[k]) {
             return {vertices_edges[k][0], vertices_edges[k][1]};
@@ -134,7 +148,7 @@ std::vector<int> Board::getVerticesConnectedToEdge(int edge) {
                         for (int n = 0; n < 6; n++) {
                             if (vertArr[tileIndex1][m] == vertArr[tileIndex2][n]) {
                                 result.push_back(vertArr[tileIndex1][m]);
-                                if (result.size() == 2) return result; // Found both vertices
+                                if (result.size() == 2) return result; 
                             }
                         }
                     }
@@ -154,10 +168,6 @@ void printSpaces(int num) {
 void printSide(Vertex v0, Edge e0, Vertex v1) {
     cout << '|' << v0 << "|--" << e0 << "--|" << v1 << '|';
 }
-
-// board size is 84x41 chars
-// each tile side has 16 chars
-// empty space in the centre of the tile is 16 chars
 
 void printGeese(int tileNum, Tile** tiles) {
     if (tiles[tileNum]->isGeese()) {
@@ -245,7 +255,11 @@ void Board::printBoard() {
             printSpaces(37);
             cout << '\\';
             printSpaces(5);
-            printGeese(18, tiles);
+            Tile* rawTilePtrs[19];
+            for (size_t idx = 0; idx < tiles.size(); ++idx) {
+                rawTilePtrs[idx] = tiles[idx].get();
+            }
+            printGeese(18, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             cout << '\n';
@@ -255,7 +269,7 @@ void Board::printBoard() {
             printSpaces(24);
             printSide(*vertices[2], *edges[3], *vertices[3]);
             printSpaces(7);
-            printDie(cout, tiles[0]);
+            printDie(cout, tiles[0].get());
             printSpaces(7);
             printSide(*vertices[4], *edges[4], *vertices[5]);
             cout << '\n';
@@ -265,7 +279,7 @@ void Board::printBoard() {
             printSpaces(24);
             printSide(*vertices[48], *edges[67], *vertices[49]);
             printSpaces(7);
-            printDie(cout, tiles[18]);
+            printDie(cout, tiles[18].get());
             printSpaces(7);
             printSide(*vertices[50], *edges[68], *vertices[51]);
             cout << '\n';
@@ -277,7 +291,11 @@ void Board::printBoard() {
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(0, tiles);
+            Tile* rawTilePtrs[19];
+            for (size_t idx = 0; idx < tiles.size(); ++idx) {
+                rawTilePtrs[idx] = tiles[idx].get();
+            }
+            printGeese(0, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
@@ -349,13 +367,18 @@ void Board::printBoard() {
             printSpaces(22);
             cout << '\\';
             printSpaces(5);
-            printGeese(16, tiles);
+            Tile* rawTilePtrs[19];
+            for (size_t idx = 0; idx < tiles.size(); ++idx) {
+                rawTilePtrs[idx] = tiles[idx].get();
+            }
+
+            printGeese(16, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(17, tiles);
+            printGeese(17, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             cout << '\n';
@@ -365,11 +388,11 @@ void Board::printBoard() {
             printSpaces(9);
             printSide(*vertices[6], *edges[9], *vertices[7]);
             printSpaces(7);
-            printDie(cout, tiles[1]);
+            printDie(cout, tiles[1].get());
             printSpaces(7);
             printSide(*vertices[8], *edges[10], *vertices[9]);
             printSpaces(7);
-            printDie(cout, tiles[2]);
+            printDie(cout, tiles[2].get());
             printSpaces(7);
             printSide(*vertices[10], *edges[11], *vertices[11]);
             cout << '\n';
@@ -379,11 +402,11 @@ void Board::printBoard() {
             printSpaces(9);
             printSide(*vertices[42], *edges[60], *vertices[43]);
             printSpaces(7);
-            printDie(cout, tiles[16]);
+            printDie(cout, tiles[16].get());
             printSpaces(7);
             printSide(*vertices[44], *edges[61], *vertices[45]);
             printSpaces(7);
-            printDie(cout, tiles[17]);
+            printDie(cout, tiles[17].get());
             printSpaces(7);
             printSide(*vertices[46], *edges[62], *vertices[47]);
             cout << '\n';
@@ -395,13 +418,17 @@ void Board::printBoard() {
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(1, tiles);
+            Tile* rawTilePtrs[19];
+            for (size_t idx = 0; idx < tiles.size(); ++idx) {
+                rawTilePtrs[idx] = tiles[idx].get();
+            }
+            printGeese(1, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(2, tiles);
+            printGeese(2, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
@@ -497,19 +524,23 @@ void Board::printBoard() {
             printSpaces(7);
             cout << '\\';
             printSpaces(5);
-            printGeese(13, tiles);
+            Tile* rawTilePtrs[19];
+            for (size_t idx = 0; idx < tiles.size(); ++idx) {
+                rawTilePtrs[idx] = tiles[idx].get();
+            }
+            printGeese(13, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(14, tiles);
+            printGeese(14, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(15, tiles);
+            printGeese(15, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             cout << '\n';
@@ -521,15 +552,15 @@ void Board::printBoard() {
             cout << *vertices[12];
             cout << '|';
             printSpaces(7);
-            printDie(cout, tiles[3]);
+            printDie(cout, tiles[3].get());
             printSpaces(7);
             printSide(*vertices[13], *edges[18], *vertices[14]);
             printSpaces(7);
-            printDie(cout, tiles[4]);
+            printDie(cout, tiles[4].get());
             printSpaces(7);
             printSide(*vertices[15], *edges[19], *vertices[16]);
             printSpaces(7);
-            printDie(cout, tiles[5]);
+            printDie(cout, tiles[5].get());
             printSpaces(7);
             cout << '|';
             cout << *vertices[17];
@@ -543,15 +574,15 @@ void Board::printBoard() {
             cout << *vertices[36];
             cout << '|';
             printSpaces(7);
-            printDie(cout, tiles[13]);
+            printDie(cout, tiles[13].get());
             printSpaces(7);
             printSide(*vertices[37], *edges[52], *vertices[38]);
             printSpaces(7);
-            printDie(cout, tiles[14]);
+            printDie(cout, tiles[14].get());
             printSpaces(7);
             printSide(*vertices[39], *edges[53], *vertices[40]);
             printSpaces(7);
-            printDie(cout, tiles[15]);
+            printDie(cout, tiles[15].get());
             printSpaces(7);
             cout << '|';
             cout << *vertices[41];
@@ -563,19 +594,23 @@ void Board::printBoard() {
             printSpaces(7);
             cout << '\\';
             printSpaces(5);
-            printGeese(3, tiles);
+            Tile* rawTilePtrs[19];
+            for (size_t idx = 0; idx < tiles.size(); ++idx) {
+                rawTilePtrs[idx] = tiles[idx].get();
+            }
+            printGeese(3, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(4, tiles);
+            printGeese(4, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(5, tiles);
+            printGeese(5, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             cout << '\n';
@@ -671,13 +706,17 @@ void Board::printBoard() {
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(11, tiles);
+            Tile* rawTilePtrs[19];
+            for (size_t idx = 0; idx < tiles.size(); ++idx) {
+                rawTilePtrs[idx] = tiles[idx].get();
+            }
+            printGeese(11, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(12, tiles);
+            printGeese(12, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
@@ -689,11 +728,11 @@ void Board::printBoard() {
             printSpaces(9);
             printSide(*vertices[18], *edges[26], *vertices[19]);
             printSpaces(7);
-            printDie(cout, tiles[6]);
+            printDie(cout, tiles[6].get());
             printSpaces(7);
             printSide(*vertices[20], *edges[27], *vertices[21]);
             printSpaces(7);
-            printDie(cout, tiles[7]);
+            printDie(cout, tiles[7].get());
             printSpaces(7);
             printSide(*vertices[22], *edges[28], *vertices[23]);
             cout << '\n';
@@ -703,11 +742,11 @@ void Board::printBoard() {
             printSpaces(9);
             printSide(*vertices[30], *edges[43], *vertices[31]);
             printSpaces(7);
-            printDie(cout, tiles[11]);
+            printDie(cout, tiles[11].get());
             printSpaces(7);
             printSide(*vertices[32], *edges[44], *vertices[33]);
             printSpaces(7);
-            printDie(cout, tiles[12]);
+            printDie(cout, tiles[12].get());
             printSpaces(7);
             printSide(*vertices[34], *edges[45], *vertices[35]);
             cout << '\n';
@@ -719,13 +758,17 @@ void Board::printBoard() {
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(6, tiles);
+            Tile* rawTilePtrs[19];
+            for (size_t idx = 0; idx < tiles.size(); ++idx) {
+                rawTilePtrs[idx] = tiles[idx].get();
+            }
+            printGeese(6, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(7, tiles);
+            printGeese(7, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
@@ -821,19 +864,23 @@ void Board::printBoard() {
             printSpaces(7);
             cout << '\\';
             printSpaces(5);
-            printGeese(8, tiles);
+            Tile* rawTilePtrs[19];
+            for (size_t idx = 0; idx < tiles.size(); ++idx) {
+                rawTilePtrs[idx] = tiles[idx].get();
+            }
+            printGeese(8, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(9, tiles);
+            printGeese(9, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             printSpaces(12);
             cout << '\\';
             printSpaces(5);
-            printGeese(10, tiles);
+            printGeese(10, rawTilePtrs);
             printSpaces(6);
             cout << '/';
             cout << '\n';
@@ -845,15 +892,15 @@ void Board::printBoard() {
             cout << *vertices[24];
             cout << '|';
             printSpaces(7);
-            printDie(cout, tiles[8]);
+            printDie(cout, tiles[8].get());
             printSpaces(7);
             printSide(*vertices[25], *edges[35], *vertices[26]);
             printSpaces(7);
-            printDie(cout, tiles[9]);
+            printDie(cout, tiles[9].get());
             printSpaces(7);
             printSide(*vertices[27], *edges[36], *vertices[28]);
             printSpaces(7);
-            printDie(cout, tiles[10]);
+            printDie(cout, tiles[10].get());
             printSpaces(7);
             cout << '|';
             cout << *vertices[29];
@@ -879,58 +926,49 @@ void Board::notifyTiles(int rollSum, std::vector<Player*>& players, int currTurn
     }
 }
 
-Board::~Board() {
-    dice->detach(this);
-    for (int i = 0; i < 54; i++) {
-        delete vertices[i];
-    }
-
-    for (int i = 0; i < 71; i++) {
-        delete edges[i];
-    }
-
-    // for (int i = 0; i < 19; i++) {
-    //     delete tiles[i];
-    // }
-}
-
 void Board::initializeBoard(BoardSetup& setupStrategy) {
     setupStrategy.setup(*this);
 }
 
 Tile* Board::getTile(int index) const {
-    return tiles[index];
+    return tiles[index].get(); 
 }
 
 Vertex* Board::getVertex(int index) const {
-    for (int i = 0; i < 54; ++i) {
-        if (vertices[i]->getIdx() == index) {
-            return vertices[i];
+    for (const auto& vertex : vertices) {
+        if (vertex->getIdx() == index) {
+            return vertex.get(); 
         }
     }
+    return nullptr;
 }
 
-Vertex** Board::getVertices() {
-    return vertices;
+std::array<std::shared_ptr<Vertex>, 54>& Board::getVertices() {
+    return vertices; 
 }
 
-Edge** Board::getEdges() {
-    return edges;
+std::array<std::shared_ptr<Edge>, 72>& Board::getEdges() {
+    return edges; 
 }
 
-Tile** Board::getTiles() { return tiles; }
+std::array<std::unique_ptr<Tile>, 19>& Board::getTiles() {
+    return tiles; 
+}
 
 void Board::loadState(const std::vector<std::pair<std::string, int>>& tilesData) {
     for (int i = 0; i < 19; ++i) {
-        if (tiles[i] == nullptr) {
-            Vertex* tempVertices[6]; 
-            Edge* tempEdges[6]; 
+        if (!tiles[i]) { 
+            std::array<Vertex*, 6> tempVertices;
+            std::array<Edge*, 6> tempEdges;
+
             for (int j = 0; j < 6; ++j) {
-                tempVertices[j] = vertices[vertArr[i][j]];
-                tempEdges[j] = edges[edgeArr[i][j]];
-            }    
-            tiles[i] = new Tile(tempVertices, tempEdges);
+                tempVertices[j] = vertices[vertArr[i][j]].get(); 
+                tempEdges[j] = edges[edgeArr[i][j]].get();       
+            }
+
+            tiles[i] = std::make_unique<Tile>(tempVertices.data(), tempEdges.data());
         }
+
         tiles[i]->setResource(tilesData[i].first);
         tiles[i]->setDieVal(tilesData[i].second);
     }

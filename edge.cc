@@ -1,33 +1,40 @@
 #include "edge.h"
 #include <iomanip>
+#include <iostream>
 
-Edge::Edge(int Idx, Vertex** vertArr, string owner): Idx(Idx), owner(owner) {
-    arr[0] = arr[1] = nullptr;
-    if (vertArr) {
-        arr[0] = vertArr[0];
-        arr[1] = vertArr[1];
-    }
-}
+Edge::Edge(int Idx, std::array<std::shared_ptr<Vertex>, 2> vertices, std::string owner)
+    : Idx(Idx), owner(owner), vertices(vertices) {}
 
-void Edge::setOwner(string s) {
+void Edge::setOwner(const std::string& s) {
     owner = s;
 }
 
-void Edge::setVertices(Vertex* v1, Vertex* v2) {
-    arr[0] = v1;
-    arr[1] = v2;
+void Edge::setVertices(std::shared_ptr<Vertex> v1, std::shared_ptr<Vertex> v2) {
+    vertices[0] = v1;
+    vertices[1] = v2;
 }
 
-Vertex** Edge::getVertices() {
-    return arr;
+std::array<std::shared_ptr<Vertex>, 2> Edge::getVertices() const {
+    return vertices;
 }
 
-int Edge::getIdx() const { return Idx; }
+std::shared_ptr<Vertex> Edge::getConnectedVertex(int index) const {
+    if (index < 0 || index >= 2) {
+        return nullptr; 
+    }
+    return vertices[index];
+}
 
-string Edge::getName() const { return owner; }
+int Edge::getIdx() const { 
+    return Idx; 
+}
 
-ostream& operator<<(ostream& out, const Edge &e) {
-    if (e.getName() == "") {
+std::string Edge::getName() const { 
+    return owner; 
+}
+
+std::ostream& operator<<(std::ostream& out, const Edge& e) {
+    if (e.getName().empty()) {
         out << std::setw(2) << std::right << e.getIdx();
     } else {
         if (e.getName() == "Blue") {
@@ -44,13 +51,6 @@ ostream& operator<<(ostream& out, const Edge &e) {
     return out;
 }
 
-Vertex* Edge::getConnectedVertex(int index) const {
-    if (index < 0 || index >= 2) {
-        return nullptr; 
-    }
-    return arr[index];
-}
-
-bool Edge::isAvailabale() {
-    return (owner == "");
+bool Edge::isAvailable() const{
+    return owner.empty();
 }

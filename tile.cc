@@ -2,24 +2,27 @@
 #include <iostream>
 using namespace std;
 
-Tile::Tile(Vertex** vertArr, Edge** edgeArr, string resourceType, int dieValue, bool geeseFlag):
-    resourceType(resourceType), dieValue(dieValue), geeseFlag(geeseFlag) {
-        for (int i = 0; i < 6; i++) {
-            adjacentVert[i] = vertArr[i];
-            adjacentEdge[i] = edgeArr[i];
-        }
-    }
+Tile::Tile(const std::array<std::shared_ptr<Vertex>, 6>& vertArr,
+           const std::array<std::shared_ptr<Edge>, 6>& edgeArr,
+           const std::string& resourceType, int dieValue, bool geeseFlag)
+    : resourceType(resourceType), dieValue(dieValue), geeseFlag(geeseFlag),
+      adjacentVert(vertArr), adjacentEdge(edgeArr) {}
 
-void Tile::updateGeese() { geeseFlag = !geeseFlag;}
+void Tile::updateGeese() {
+    geeseFlag = !geeseFlag;
+}
 
-int Tile::getDieVal() { return dieValue; }
+int Tile::getDieVal() const {
+    return dieValue;
+}
 
-string Tile::getResource() { return resourceType; }
+std::string Tile::getResource() const {
+    return resourceType;
+}
 
 void Tile::distributeResources(std::vector<Player*>& players) {
-    for (int i = 0; i < 6; ++i) {
-        Vertex* vertex = adjacentVert[i];
-        if (vertex && !vertex->getName().empty()) { 
+    for (const auto& vertex : adjacentVert) { // Use range-based for loop
+        if (vertex && !vertex->getName().empty()) { // Check if vertex is valid and has an owner
             for (auto& player : players) {
                 if (player->getColor() == vertex->getName()) {
                     int resourceAmount = 0;
@@ -38,7 +41,6 @@ void Tile::distributeResources(std::vector<Player*>& players) {
     }
 }
 
-
 void Tile::setResource(const std::string& resource) {
     resourceType = resource;
 }
@@ -53,7 +55,10 @@ void Tile::notify(int rollSum, std::vector<Player*>& players, int currTurn) {
     }
 }
 
-Vertex** Tile::getAdjacentVertices() { return adjacentVert; }
+const std::array<std::shared_ptr<Vertex>, 6>& Tile::getAdjacentVertices() const {
+    return adjacentVert;
+}
 
-
-bool Tile::isGeese() { return geeseFlag; }
+bool Tile::isGeese() const {
+    return geeseFlag;
+}

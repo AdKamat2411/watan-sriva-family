@@ -1,12 +1,19 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -g
+CXXFLAGS = -std=c++20 -Wall -Wextra -g
 
-SRCS = main.cc gamemanager.cc board.cc tile.cc vertex.cc edge.cc dice.cc geese.cc boardsetup.cc randomboardsetup.cc fileboardsetup.cc
+
+SRCS = main.cc gamemanager.cc board.cc dice.cc player.cc randomboardsetup.cc \
+       tile.cc edge.cc vertex.cc subject.cc observer.cc fileboardsetup.cc \
+       savemanager.cc geese.cc
+
+
 OBJS = $(SRCS:.cc=.o)
 
-HEADERS = gamemanager.h board.h tile.h vertex.h edge.h dice.h geese.h boardsetup.h randomboardsetup.h fileboardsetup.h
+HEADERS = gamemanager.h board.h dice.h player.h randomboardsetup.h \
+          tile.h edge.h vertex.h subject.h observer.h fileboardsetup.h \
+          savemanager.h geese.h
 
-TARGET = game
+TARGET = watan
 
 all: $(TARGET)
 
@@ -15,6 +22,7 @@ $(TARGET): $(OBJS)
 
 %.o: %.cc $(HEADERS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 
 clean:
 	rm -f $(OBJS) $(TARGET)

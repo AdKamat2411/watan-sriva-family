@@ -10,7 +10,7 @@ using namespace std;
 
 class Vertex {
     string owner;
-    string houseLevel; // "Assignment", "Midterm", "Exam"
+    string houseLevel;
     int Idx;
 
 public:
@@ -18,9 +18,9 @@ public:
     bool isAvailable() const;
     string getName() const;
     int getIdx() const;
-    string getHouseLevel() const; // Accessor for houseLevel
+    string getHouseLevel() const;
     void setOwner(string s);
-    void setHouseLevel(const string& level); // Mutator for houseLevel
+    void setHouseLevel(const string& level); 
     
 };
 

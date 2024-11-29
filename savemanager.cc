@@ -1,6 +1,8 @@
 #include "savemanager.h"
+#include <memory>
+#include <stdexcept>
 
-void SaveManager::saveGame(const std::string& filename, GameManager* gameManager) {
+void SaveManager::saveGame(const std::string& filename, std::shared_ptr<GameManager> gameManager) {
     std::ofstream outFile(filename);
 
     if (!outFile.is_open()) {
@@ -10,29 +12,26 @@ void SaveManager::saveGame(const std::string& filename, GameManager* gameManager
     // Save current turn
     outFile << gameManager->getcurrTurn() << std::endl;
 
-    // Save each player's data
-    for (Player* player : gameManager->getPlayers()) {
-        // Save resources
+    // Save players' resources and state
+    for (const auto& player : gameManager->getPlayers()) {
         outFile << player->getResourceCount("CAFFEINE") << " "
                 << player->getResourceCount("LAB") << " "
                 << player->getResourceCount("LECTURE") << " "
                 << player->getResourceCount("STUDY") << " "
                 << player->getResourceCount("TUTORIAL") << " ";
 
-        // Save goals
         outFile << "g ";
 
-        Edge** edgeArr = gameManager->getBoard()->getEdges();
-        for (int i = 0; i < 72; i++) {
+        auto& edgeArr = gameManager->getBoard()->getEdges();
+        for (size_t i = 0; i < edgeArr.size(); i++) {
             if (edgeArr[i]->getName() == player->getColor()) {
                 outFile << edgeArr[i]->getIdx() << " ";
             }
         }
 
-        // Save criteria
         outFile << "c ";
-        Vertex** vertArr = gameManager->getBoard()->getVertices();
-        for (int i = 0; i < 54; i++) {
+        auto& vertArr = gameManager->getBoard()->getVertices();
+        for (size_t i = 0; i < vertArr.size(); i++) {
             if (vertArr[i]->getName() == player->getColor()) {
                 outFile << vertArr[i]->getIdx() << " ";
                 if (vertArr[i]->getHouseLevel() == "Assignment") {
@@ -47,14 +46,13 @@ void SaveManager::saveGame(const std::string& filename, GameManager* gameManager
         outFile << std::endl;
     }
 
-    // Save board data
-    Board* board = gameManager->getBoard();
-    Tile** tiles = board->getTiles();
-    for (int i = 0; i < 19; ++i) {
-        Tile* tile = tiles[i];
+    // Save board tiles
+    auto& tiles = gameManager->getBoard()->getTiles();
+    for (size_t i = 0; i < tiles.size(); ++i) {
+        const auto& tile = tiles[i];
         int resourceValue = tile->getDieVal();
         std::string resourceType = tile->getResource();
-        
+
         int resourceIndex;
         if (resourceType == "CAFFEINE") resourceIndex = 0;
         else if (resourceType == "LAB") resourceIndex = 1;
@@ -68,9 +66,9 @@ void SaveManager::saveGame(const std::string& filename, GameManager* gameManager
     }
     outFile << std::endl;
 
-    // Save geese position
+    // Save geese tile
     int geeseTile = -1;
-    for (int i = 0; i < 19; i ++) {
+    for (size_t i = 0; i < tiles.size(); ++i) {
         if (tiles[i]->isGeese()) {
             geeseTile = i;
             break;
@@ -78,7 +76,7 @@ void SaveManager::saveGame(const std::string& filename, GameManager* gameManager
     }
 
     if (geeseTile == -1) {
-        for (int i = 0; i < 19; i ++) {
+        for (size_t i = 0; i < tiles.size(); ++i) {
             if (tiles[i]->getResource() == "NETFLIX") {
                 geeseTile = i;
                 break;
@@ -86,7 +84,7 @@ void SaveManager::saveGame(const std::string& filename, GameManager* gameManager
         }
     }
 
-    outFile << geeseTile << std::endl; // Assuming the board tracks which tile has the geese
+    outFile << geeseTile << std::endl; 
 
     outFile.close();
 }

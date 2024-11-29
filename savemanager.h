@@ -8,7 +8,7 @@
 
 class SaveManager {
 public:
-    void saveGame(const std::string& filename, GameManager* gameManager);
+    void saveGame(const std::string& filename, std::shared_ptr<GameManager> gameManager);
 };
 
-#endif // SAVEMANAGER_H
+#endif 

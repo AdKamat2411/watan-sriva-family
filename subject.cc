@@ -1,27 +1,25 @@
 #include "subject.h"
 #include "observer.h"
 #include <vector>
+#include <algorithm> // For std::find
 
-void Subject::attach( Observer* o ) {
-  observers.emplace_back(o);
+void Subject::attach(std::shared_ptr<Observer> o) {
+    observers.emplace_back(o); // Add the shared_ptr directly
 }
 
-void Subject::detach( Observer* o ) {
-  for (auto it = observers.begin(); it != observers.end(); ++it) {
-    if (*it == o) {
-      observers.erase(it);
-      delete o;
-      break;
-    }
-  }
-}
-
-void Subject::notifyObservers(int rollSum, std::vector<Player*>& players, int currTurn) { 
-    for (auto p : observers) {
-        p->notify(rollSum, players, currTurn); 
+void Subject::detach(std::shared_ptr<Observer> o) {
+    auto it = std::find(observers.begin(), observers.end(), o); // Find the shared_ptr
+    if (it != observers.end()) {
+        observers.erase(it); // Remove it from the vector
     }
 }
 
-std::vector<Observer*> Subject::getObservers() {
-  return observers;
+void Subject::notifyObservers(int rollSum, std::vector<Player*>& players, int currTurn) {
+    for (const auto& observer : observers) { // Iterate over shared_ptr
+        observer->notify(rollSum, players, currTurn); // Use the Observer's notify method
+    }
+}
+
+std::vector<std::shared_ptr<Observer>> Subject::getObservers() {
+    return observers; // Return the vector of shared_ptr
 }
